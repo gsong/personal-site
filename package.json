@@ -23,7 +23,7 @@
   ],
   "dependencies": {
     "@emotion/core": "^10.1.1",
-    "gatsby": "^2.27.3",
+    "gatsby": "^4.25.7",
     "gatsby-image": "^2.6.0",
     "random-words": "^1.1.1",
     "react": "^17.0.1",
