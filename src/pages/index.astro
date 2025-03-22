@@ -1,11 +1,34 @@
 ---
-import Welcome from "../components/Welcome.astro";
-import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import headshot from "@/assets/gs-headshot.jpg";
+import Layout from "@/layouts/Layout.astro";
 ---
 
 <Layout>
-	<Welcome />
+  <header>
+    <Image src={headshot} alt="" />
+    <h1>
+      <div class="flex gap-2">
+        <span>👋</span>
+        <span>I’m George. I help software teams be more effective.</span>
+      </div>
+    </h1>
+  </header>
 </Layout>
+
+<style>
+  @reference "@/styles/global.css";
+
+  header {
+    @apply my-4 flex max-w-2xl items-center justify-center gap-4 text-center;
+  }
+
+  img {
+    @apply size-20 rounded-sm rounded-tr-2xl rounded-bl-2xl sm:size-30 sm:rounded-tr-4xl sm:rounded-bl-4xl;
+  }
+
+  h1 {
+    @apply text-left text-xl font-semibold sm:text-4xl;
+  }
+</style>

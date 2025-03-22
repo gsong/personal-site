@@ -1,0 +1,53 @@
+---
+import {
+  LinkedInLogoIcon,
+  EnvelopeOpenIcon,
+  GitHubLogoIcon,
+} from "@radix-ui/react-icons";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer>
+  <a aria-label="Return to homepage" href="/"
+    >George Song © <span id="current-year">{currentYear}</span></a
+  >
+  <div>
+    <a aria-label="Email George" href="mailto:george@gsong.dev">
+      <EnvelopeOpenIcon />
+    </a>
+
+    <a
+      aria-label="George's GitHub"
+      href="https://github.com/gsong/personal-site"
+    >
+      <GitHubLogoIcon />
+    </a>
+
+    <a aria-label="George's LinkedIn" href="https://www.linkedin.com/in/gsong/">
+      <LinkedInLogoIcon />
+    </a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("current-year")!.textContent = new Date()
+    .getFullYear()
+    .toString();
+</script>
+
+<style>
+  @reference "@/styles/global.css";
+
+  footer {
+    @apply my-2 flex w-full max-w-2xl items-center justify-between;
+
+    div {
+      @apply flex gap-4;
+    }
+  }
+
+  svg {
+    @apply size-6 transform transition-transform duration-300 hover:scale-125;
+  }
+</style>
