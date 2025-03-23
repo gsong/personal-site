@@ -1,12 +1,16 @@
 {
-  "name": "personal-site",
+  "name": "gsong-dot-dev",
   "type": "module",
-  "version": "0.0.1",
+  "version": "2.0.0",
+  "packageManager": "pnpm@10.6.5",
   "scripts": {
-    "dev": "astro dev",
+    "prebuild": "if [ \"$CLEAR_CACHE\" = \"true\" ]; then rm -rf node_modules/.astro; fi",
     "build": "astro build",
-    "preview": "astro build && astro preview",
-    "astro": "astro"
+    "deploy": "netlify build && netlify deploy --prod",
+    "dev": "astro dev",
+    "postinstall": "is-ci || mise postinstall",
+    "prepreview": "pnpm run build",
+    "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.1",
@@ -28,6 +32,8 @@
     "@biomejs/biome": "^1.9.4",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.0.15",
+    "is-ci": "^4.1.0",
+    "netlify-cli": "^19.0.3",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-astro-organize-imports": "^0.4.11",
