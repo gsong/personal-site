@@ -11,10 +11,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   integrations: [react(), mdx(), sitemap()],
 
-  server: { host: true },
+  server: { host: true, allowedHosts: true },
 
   vite: {
-    server: { allowedHosts: ["shadow.local"] },
     plugins: [tailwindcss()],
   },
 });

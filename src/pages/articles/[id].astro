@@ -1,6 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
+
+import headshot from "@/assets/gs-headshot.jpg";
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles");
@@ -27,7 +30,18 @@ function formatDate(date = new Date()) {
 ---
 
 <Layout>
-  <main class="prose-default">
+  <header class="prose-default my-1 !mb-6 w-full sm:my-2">
+    <a
+      href="/"
+      aria-label="Return home"
+      class="flex items-center justify-start gap-4"
+    >
+      <Image src={headshot} alt="" class="!m-0 size-12 rounded-full" />
+      George Song
+    </a>
+  </header>
+
+  <main class="prose-default mt-0 sm:mt-4">
     <h1>{article.data.title}</h1>
 
     <time datetime={published.toISOString()}>{formatDate(published)}</time>

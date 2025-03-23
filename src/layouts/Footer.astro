@@ -8,19 +8,18 @@ import {
 const currentYear = new Date().getFullYear();
 ---
 
-<footer>
+<footer
+  class="prose-default mt-12 mb-6 flex w-full items-center justify-between"
+>
   <a aria-label="Return to homepage" href="/"
     >George Song © <span id="current-year">{currentYear}</span></a
   >
-  <div>
+  <div class="flex gap-6">
     <a aria-label="Email George" href="mailto:george@gsong.dev">
       <EnvelopeOpenIcon />
     </a>
 
-    <a
-      aria-label="George's GitHub"
-      href="https://github.com/gsong/personal-site"
-    >
+    <a aria-label="George's GitHub" href="https://github.com/gsong">
       <GitHubLogoIcon />
     </a>
 
@@ -39,15 +38,7 @@ const currentYear = new Date().getFullYear();
 <style>
   @reference "@/styles/global.css";
 
-  footer {
-    @apply prose-default mt-12 mb-6 flex w-full items-center justify-between;
-
-    div {
-      @apply flex gap-6;
-    }
-
-    svg {
-      @apply size-6 transform transition-transform duration-300 hover:scale-125;
-    }
+  svg {
+    @apply size-6 transform transition-transform duration-300 hover:scale-125;
   }
 </style>

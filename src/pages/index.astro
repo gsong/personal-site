@@ -10,9 +10,17 @@ const articles = await getCollection("articles");
 ---
 
 <Layout>
-  <header>
-    <Image src={headshot} alt="" />
-    <h1>
+  <header
+    class="prose-default my-1 !mb-6 flex items-center justify-center gap-4 sm:my-2"
+  >
+    <Image
+      src={headshot}
+      alt=""
+      class="!m-0 size-20 rounded-sm rounded-tr-2xl rounded-bl-2xl sm:size-30 sm:rounded-tr-4xl sm:rounded-bl-4xl"
+    />
+    <h1
+      class="!m-0 text-left !text-xl font-semibold sm:!text-2xl md:!text-3xl lg:!text-4xl"
+    >
       <div class="flex gap-2">
         <span>👋</span>
         <span>I’m George. I help software teams be more effective.</span>
@@ -20,7 +28,7 @@ const articles = await getCollection("articles");
     </h1>
   </header>
 
-  <main>
+  <main class="prose-default w-full">
     <ul>
       {
         articles.map((article) => (
@@ -32,23 +40,3 @@ const articles = await getCollection("articles");
     </ul>
   </main>
 </Layout>
-
-<style>
-  @reference "@/styles/global.css";
-
-  header {
-    @apply prose-default my-1 !mb-6 flex items-center justify-center gap-4 sm:my-2;
-
-    img {
-      @apply m-0 size-20 rounded-sm rounded-tr-2xl rounded-bl-2xl sm:size-30 sm:rounded-tr-4xl sm:rounded-bl-4xl;
-    }
-
-    h1 {
-      @apply m-0 text-left text-xl font-semibold sm:text-4xl;
-    }
-  }
-
-  main {
-    @apply prose-default w-full;
-  }
-</style>
