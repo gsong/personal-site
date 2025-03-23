@@ -20,7 +20,7 @@ const articles = await getCollection("articles");
     </h1>
   </header>
 
-  <main class="w-full max-w-2xl">
+  <main>
     <ul>
       {
         articles.map((article) => (
@@ -37,14 +37,18 @@ const articles = await getCollection("articles");
   @reference "@/styles/global.css";
 
   header {
-    @apply my-1 flex max-w-2xl items-center justify-center gap-4 text-center sm:my-2;
+    @apply prose-default my-1 !mb-6 flex items-center justify-center gap-4 sm:my-2;
+
+    img {
+      @apply m-0 size-20 rounded-sm rounded-tr-2xl rounded-bl-2xl sm:size-30 sm:rounded-tr-4xl sm:rounded-bl-4xl;
+    }
+
+    h1 {
+      @apply m-0 text-left text-xl font-semibold sm:text-4xl;
+    }
   }
 
-  img {
-    @apply size-20 rounded-sm rounded-tr-2xl rounded-bl-2xl sm:size-30 sm:rounded-tr-4xl sm:rounded-bl-4xl;
-  }
-
-  h1 {
-    @apply text-left text-xl font-semibold sm:text-4xl;
+  main {
+    @apply prose-default w-full;
   }
 </style>

@@ -1,9 +1,10 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @layer base {
   html,
   body {
-    @apply m-1 flex flex-col items-center text-gray-800 sm:m-2;
+    @apply m-1 flex flex-col items-center sm:m-2;
   }
 
   h1,
@@ -15,6 +16,10 @@
   }
 
   a {
-    @apply text-blue-600 underline underline-offset-2;
+    @apply !decoration-blue-600/40 underline-offset-2 hover:!decoration-blue-600;
   }
+}
+
+@utility prose-default {
+  @apply prose md:prose-lg lg:prose-xl prose-a:text-blue-600;
 }

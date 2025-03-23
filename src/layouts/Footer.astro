@@ -1,8 +1,8 @@
 ---
 import {
-  LinkedInLogoIcon,
   EnvelopeOpenIcon,
   GitHubLogoIcon,
+  LinkedInLogoIcon,
 } from "@radix-ui/react-icons";
 
 const currentYear = new Date().getFullYear();
@@ -40,14 +40,14 @@ const currentYear = new Date().getFullYear();
   @reference "@/styles/global.css";
 
   footer {
-    @apply mt-2 flex w-full max-w-2xl items-center justify-between;
+    @apply prose-default mt-12 mb-6 flex w-full items-center justify-between;
 
     div {
-      @apply flex gap-4;
+      @apply flex gap-6;
     }
-  }
 
-  svg {
-    @apply size-6 transform transition-transform duration-300 hover:scale-125;
+    svg {
+      @apply size-6 transform transition-transform duration-300 hover:scale-125;
+    }
   }
 </style>
