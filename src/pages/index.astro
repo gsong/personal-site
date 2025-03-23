@@ -34,6 +34,9 @@ const articles = await getCollection("articles");
         articles.map((article) => (
           <li>
             <a href={`/articles/${article.id}`}>{article.data.title}</a>
+            <p class="!m-0 !mt-1 max-w-[65ch] text-[0.8em]/6">
+              {article.data.summary}
+            </p>
           </li>
         ))
       }

@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
 
+import { ClientRouter } from "astro:transitions";
 import Footer from "./Footer.astro";
 ---
 
@@ -12,6 +13,7 @@ import Footer from "./Footer.astro";
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
     <title>George Song’s Site</title>
+    <ClientRouter />
   </head>
   <body>
     <slot />
