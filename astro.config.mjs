@@ -11,6 +11,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://gsong.dev",
   integrations: [react(), mdx(), sitemap()],
 
   markdown: {

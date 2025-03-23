@@ -6,7 +6,9 @@ import Layout from "@/layouts/Layout.astro";
 
 import { getCollection } from "astro:content";
 
-const articles = await getCollection("articles");
+const articles = (await getCollection("articles")).sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+);
 ---
 
 <Layout>
