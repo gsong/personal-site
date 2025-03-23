@@ -3,6 +3,10 @@ import { Image } from "astro:assets";
 
 import headshot from "@/assets/gs-headshot.jpg";
 import Layout from "@/layouts/Layout.astro";
+
+import { getCollection } from "astro:content";
+
+const articles = await getCollection("articles");
 ---
 
 <Layout>
@@ -15,13 +19,25 @@ import Layout from "@/layouts/Layout.astro";
       </div>
     </h1>
   </header>
+
+  <main class="w-full max-w-2xl">
+    <ul>
+      {
+        articles.map((article) => (
+          <li>
+            <a href={`/articles/${article.id}`}>{article.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
 </Layout>
 
 <style>
   @reference "@/styles/global.css";
 
   header {
-    @apply my-4 flex max-w-2xl items-center justify-center gap-4 text-center;
+    @apply my-1 flex max-w-2xl items-center justify-center gap-4 text-center sm:my-2;
   }
 
   img {
