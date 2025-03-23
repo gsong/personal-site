@@ -20,7 +20,7 @@
   }
 
   a {
-    @apply !text-blue-600 !decoration-blue-600/40 underline-offset-2 hover:!decoration-blue-600;
+    @apply !text-blue-600 !decoration-blue-600/40 underline-offset-[0.125em] hover:!decoration-blue-600;
   }
 }
 

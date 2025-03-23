@@ -1,20 +1,21 @@
 ---
+import Footer from "./Footer.astro";
+import Head from "./Head.astro";
+
 import "@/styles/global.css";
 
-import { ClientRouter } from "astro:transitions";
-import Footer from "./Footer.astro";
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
-    <meta name="generator" content={Astro.generator} />
-    <title>George Song’s Site</title>
-    <ClientRouter />
-  </head>
+  <Head title={title} description={description} />
+
   <body>
     <slot />
 

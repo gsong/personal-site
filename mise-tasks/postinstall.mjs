@@ -23,7 +23,7 @@ async function main() {
     // Write updated package.json
     await writeFile(
       packagePath,
-      JSON.stringify(packageJson, undefined, 2) + "\n",
+      `${JSON.stringify(packageJson, undefined, 2)}\n`,
     );
 
     console.log("Updated packageManager in package.json");

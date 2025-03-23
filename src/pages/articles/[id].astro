@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
+import { Pencil2Icon } from "@radix-ui/react-icons";
 
 import headshot from "@/assets/gs-headshot.jpg";
 
@@ -15,7 +16,7 @@ export async function getStaticPaths() {
 }
 
 const { article } = Astro.props;
-const { published, updated } = article.data;
+const { title, description, published, updated } = article.data;
 const { Content } = await render(article);
 
 function formatDate(date = new Date()) {
@@ -29,7 +30,7 @@ function formatDate(date = new Date()) {
 }
 ---
 
-<Layout>
+<Layout title={`George Song | Article: ${title}`} description={description}>
   <header class="prose-default my-1 !mb-6 w-full sm:my-2">
     <a
       href="/"
@@ -42,17 +43,21 @@ function formatDate(date = new Date()) {
   </header>
 
   <main class="prose-default mt-0 sm:mt-4">
-    <h1>{article.data.title}</h1>
+    <h1>{title}</h1>
 
-    <time datetime={published.toISOString()}>{formatDate(published)}</time>
-    {
-      updated ? (
-        <>
-          (updated{" "}
-          <time datetime={updated.toISOString()}>{formatDate(updated)}</time>)
-        </>
-      ) : null
-    }
+    <div class="flex items-center gap-2 text-(--tw-prose-body)/80">
+      <Pencil2Icon className="size-5" />
+      <time itemprop="datePublished" datetime={published.toISOString()}
+        >{formatDate(published)}</time
+      >
+      {
+        updated ? (
+          <time itemprop="dateModified" datetime={updated.toISOString()}>
+            (updated {formatDate(updated)})
+          </time>
+        ) : null
+      }
+    </div>
 
     <Content />
   </main>
