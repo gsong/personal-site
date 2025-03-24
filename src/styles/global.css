@@ -39,10 +39,6 @@
   }
 }
 
-@utility prose-default {
-  @apply prose md:prose-lg lg:prose-xl;
-}
-
 @layer custom {
   span.icon-link::before {
     content: "#";
@@ -55,4 +51,12 @@
       @apply xs:!block !hidden;
     }
   }
+}
+
+@utility flex-center {
+  @apply flex items-center gap-[0.25em];
+}
+
+@utility prose-default {
+  @apply prose md:prose-lg lg:prose-xl;
 }

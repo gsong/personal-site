@@ -35,7 +35,7 @@ function formatDate(date = new Date()) {
     <a
       href="/"
       aria-label="Return home"
-      class="flex items-center justify-start gap-4"
+      class="flex-center justify-start gap-4"
     >
       <Image src={headshot} alt="" class="!m-0 size-12 rounded-full" />
       George Song
@@ -47,7 +47,7 @@ function formatDate(date = new Date()) {
   >
     <h1>{title}</h1>
 
-    <div class="flex items-center gap-2 text-[0.9em] text-(--tw-prose-body)/80">
+    <div class="flex-center text-[0.9em] text-(--tw-prose-body)/80">
       <Pencil2Icon className="size-5" />
       <time itemprop="datePublished" datetime={published.toISOString()}
         >{formatDate(published)}</time

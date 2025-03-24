@@ -2,7 +2,7 @@ import type { JSX } from "react";
 
 import { useState } from "react";
 
-import { KeyboardIcon } from "@radix-ui/react-icons";
+import { ExternalLinkIcon, KeyboardIcon } from "@radix-ui/react-icons";
 import { clsx } from "clsx";
 
 interface CodeSandboxProps extends React.ComponentPropsWithoutRef<"iframe"> {
@@ -23,20 +23,31 @@ export const CodeSandbox = ({
   className,
 }: CodeSandboxProps) => {
   const [shouldLoad, setShouldLoad] = useState(false);
+  const isIphone = /iPhone/.test(navigator.userAgent);
 
   return (
     <>
       {Heading === "hide" ? null : (
-        <Heading className="flex items-center gap-2">
+        <Heading className="flex-center">
           <KeyboardIcon className="size-[1.15em]" />
           Try It Out
         </Heading>
       )}
 
-      {shouldLoad ? (
+      {isIphone ? (
+        <a
+          href={createCodeSandboxUrl(id, { file, isEmbedded: false })}
+          target="_blank"
+          rel="noreferrer"
+          className="flex-center"
+        >
+          <ExternalLinkIcon className="size-[1.15em]" />
+          Open Sandbox
+        </a>
+      ) : shouldLoad ? (
         <div className="@container">
           <iframe
-            src={createCodeSandboxUrl(id, file)}
+            src={createCodeSandboxUrl(id, { file })}
             title={title}
             allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
             sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
@@ -52,15 +63,26 @@ export const CodeSandbox = ({
   );
 };
 
-function createCodeSandboxUrl(id: string, file = "index.js") {
+interface Options {
+  file?: string;
+  isEmbedded?: boolean;
+}
+
+function createCodeSandboxUrl(
+  id: string,
+  { file = "index.js", isEmbedded = true }: Options,
+) {
   const baseUrl = "https://codesandbox.io/p/devbox/";
   const url = new URL(baseUrl + id);
 
   const params = new URLSearchParams({
-    embed: "1",
     file,
     showConsole: "true",
   });
+
+  if (isEmbedded) {
+    params.append("embed", "1");
+  }
 
   url.search = params.toString();
   return url.toString();
