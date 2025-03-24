@@ -34,7 +34,7 @@ part of the workflow.
 The combination of [object destructuring][destructure] and [object literal
 spread/rest syntax][spread] to the rescue ⛑.
 
-```js{1}
+```js {1}
 const { secretKeyLocation, ...rest } = restaurant;
 doSomethingWith(rest);
 ```
@@ -58,7 +58,7 @@ With this, you now have three variables:
 - `restaurant` remains untouched and retains its original value. Immutability
   FTW 🙌!
 
-<CodeSandbox id="nmmst5" title="Remove JS object properties" />
+<CodeSandbox client:visible id="nmmst5" title="Remove JS object properties" />
 
 [destructure]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring
 [spread]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#Spread_in_object_literals

@@ -11,6 +11,7 @@ import rehypeSlug from "rehype-slug";
 export default defineConfig({
   site: process.env.SITE_URL || "https://gsong.dev",
   base: process.env.SITE_BASE || "/",
+  output: "static",
 
   integrations: [react(), mdx(), sitemap({ lastmod: new Date() })],
 
