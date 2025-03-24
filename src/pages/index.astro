@@ -1,10 +1,10 @@
 ---
 import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import { Markdown } from "@astropub/md";
 
 import headshot from "@/assets/gs-headshot.jpg";
 import Layout from "@/layouts/Layout.astro";
-
-import { getCollection } from "astro:content";
 
 const articles = (await getCollection("articles")).sort(
   (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
@@ -37,7 +37,7 @@ const articles = (await getCollection("articles")).sort(
           <li>
             <a href={`/articles/${article.id}`}>{article.data.title}</a>
             <p class="!m-0 !mt-1 max-w-[65ch] text-[0.8em]/6">
-              {article.data.summary}
+              <Markdown.Inline of={article.data.summary} />
             </p>
           </li>
         ))

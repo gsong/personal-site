@@ -5,9 +5,9 @@ description: >
   libraries required!
 published: 2020-07-10T08:23:12-07:00
 summary: >
-  Learn how to format dates in JavaScript using the built-in Date object and
-  toLocaleDateString() method. This method offers a lightweight alternative to
-  libraries like Moment.js or date-fns for basic date formatting needs.
+  Learn how to format dates in JavaScript using the built-in `Date` object and
+  `toLocaleDateString()` method. This method offers a lightweight alternative
+  to libraries like Moment.js or date-fns for basic date formatting needs.
 ---
 
 import { CodeSandbox } from "@/components/CodeSandbox";
@@ -16,13 +16,18 @@ import { LocaleDate } from "./LocaleDate";
 
 export const isoDate = new Date().toISOString();
 
-Do you automatically reach for [Moment.js][] when you need to format dates? Or perhaps you prefer [date-fns][]? But if you have basic formatting needs, don't discount the built-in JavaScript tools.
+Do you automatically reach for [Moment.js][] when you need to format dates? Or
+perhaps you prefer [date-fns][]? But if you have basic formatting needs, don't
+discount the built-in JavaScript tools.
 
 ## Use Case
 
-I'm displaying a date with each article on this site. The source of the date is an [ISO date string][iso-8601], which looks like <code>{isoDate}</code>. This is a typical format you'll receive as part of an API response, for example.
+I'm displaying a date with each article on this site. The source of the date is
+an [ISO date string][iso-8601], which looks like <code>{isoDate}</code>. This
+is a typical format you'll receive as part of an API response, for example.
 
-While the ISO format is explicit and great for cross-boundary data exchange, it's not display-friendly. Let's show a localized date string instead.
+While the ISO format is explicit and great for cross-boundary data exchange,
+it's not display-friendly. Let's show a localized date string instead.
 
 <LocaleDate client:visible />
 
@@ -53,11 +58,14 @@ While the ISO format is explicit and great for cross-boundary data exchange, it'
    });
    ```
 
-   [See the `Intl.DateTimeFormat()` constructor][intl-params] for details on the parameters.
+   [See the `Intl.DateTimeFormat()` constructor][intl-params] for details on
+   the parameters.
 
-It's a bit more code than using one of the libraries, but your users will thank you for the smaller bundle size.
+It's a bit more code than using one of the libraries, but your users will thank
+you for the smaller bundle size.
 
-OK, they probably won't—but you'll have the satisfaction of knowing you've done your part to improve their experience.
+OK, they probably won't—but you'll have the satisfaction of knowing you've done
+your part to improve their experience.
 
 <CodeSandbox
   client:visible
@@ -68,7 +76,6 @@ OK, they probably won't—but you'll have the satisfaction of knowing you've don
 
 [date-constructor]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date#Timestamp_string
 [date-fns]: https://date-fns.org
-[gatsby]: https://www.gatsbyjs.org
 [intl-params]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat#Parameters
 [iso-8601]: https://en.wikipedia.org/wiki/ISO_8601
 [moment.js]: https://momentjs.com
