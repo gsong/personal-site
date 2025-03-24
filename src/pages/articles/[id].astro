@@ -43,11 +43,11 @@ function formatDate(date = new Date()) {
   </header>
 
   <main
-    class="prose-default mt-0 max-w-[calc(min(65ch,100vw)-2*var(--mx))] sm:mt-4"
+    class="prose-default mt-0 max-w-[min(65ch,calc(100vw-2*var(--mx)))] sm:mt-4"
   >
     <h1>{title}</h1>
 
-    <div class="flex items-center gap-2 text-(--tw-prose-body)/80">
+    <div class="flex items-center gap-2 text-[0.9em] text-(--tw-prose-body)/80">
       <Pencil2Icon className="size-5" />
       <time itemprop="datePublished" datetime={published.toISOString()}
         >{formatDate(published)}</time

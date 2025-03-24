@@ -1,9 +1,9 @@
-import { clsx } from "clsx";
 import type { JSX } from "react";
 
-import { KeyboardIcon } from "@radix-ui/react-icons";
-
 import { useState } from "react";
+
+import { KeyboardIcon } from "@radix-ui/react-icons";
+import { clsx } from "clsx";
 
 interface CodeSandboxProps extends React.ComponentPropsWithoutRef<"iframe"> {
   id: string;
@@ -27,7 +27,7 @@ export const CodeSandbox = ({
   return (
     <>
       {Heading === "hide" ? null : (
-        <Heading className="flex items-end gap-2">
+        <Heading className="flex items-center gap-2">
           <KeyboardIcon className="size-[1.15em]" />
           Try It Out
         </Heading>
@@ -40,7 +40,7 @@ export const CodeSandbox = ({
             title={title}
             allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
             sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-            className={clsx("h-150 w-full rounded-lg", className)}
+            className={clsx("h-150 w-full rounded-md", className)}
           />
         </div>
       ) : (
