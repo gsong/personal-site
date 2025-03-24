@@ -1,14 +1,21 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
 @layer base {
-  html,
-  body {
+  :root {
+    --mx: 5%;
+  }
+
+  html {
     @apply m-0;
   }
 
   body {
-    @apply mx-[5%] my-[2%] flex flex-col items-center;
+    @apply mx-[var(--mx)] my-[2%] flex flex-col items-center;
   }
 
   h1,
@@ -20,11 +27,11 @@
   }
 
   a {
-    @apply !text-blue-600 !decoration-blue-600/40 underline-offset-[0.125em] hover:!decoration-blue-600;
+    @apply !text-blue-600 !decoration-blue-600/40 underline-offset-[0.125em] hover:!text-blue-800 hover:!decoration-blue-800;
   }
 
   button {
-    @apply rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none;
+    @apply rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none;
   }
 }
 
@@ -37,5 +44,11 @@
     content: "#";
     font-size: 0.8em;
     @apply ms-2;
+  }
+
+  .expressive-code {
+    .gutter {
+      @apply xs:!block !hidden;
+    }
   }
 }
