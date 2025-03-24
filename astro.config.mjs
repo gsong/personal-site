@@ -4,7 +4,9 @@ import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import tailwindcss from "@tailwindcss/vite";
+import expressiveCode from "astro-expressive-code";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 
@@ -13,7 +15,18 @@ export default defineConfig({
   base: process.env.SITE_BASE || "/",
   output: "static",
 
-  integrations: [react(), mdx(), sitemap({ lastmod: new Date() })],
+  integrations: [
+    react(),
+    expressiveCode({
+      themes: ["catppuccin-latte", "catppuccin-frappe"],
+      plugins: [pluginLineNumbers()],
+      frames: {
+        showCopyToClipboardButton: false,
+      },
+    }),
+    mdx(),
+    sitemap({ lastmod: new Date() }),
+  ],
 
   markdown: {
     rehypePlugins: [
