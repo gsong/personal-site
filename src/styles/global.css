@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@import "./components.css";
+
 @theme {
   --breakpoint-xs: 30rem;
 }
@@ -16,26 +18,6 @@
 
   body {
     @apply mx-[var(--mx)] my-[2%] flex flex-col items-center;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  p {
-    @apply text-pretty;
-  }
-
-  a {
-    @apply !text-blue-600 !decoration-blue-600/40 underline-offset-[0.125em] hover:!text-blue-800 hover:!decoration-blue-800;
-  }
-
-  button {
-    @apply rounded-sm bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none;
-  }
-
-  select {
-    @apply rounded-sm border p-1 text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none;
   }
 }
 

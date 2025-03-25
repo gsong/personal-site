@@ -83,7 +83,7 @@ interface Options {
 
 function createCodeSandboxUrl(
   id: string,
-  { file = "index.js", isEmbedded = true }: Options,
+  { file = "src/App.js", isEmbedded = true }: Options,
 ) {
   const baseUrl = "https://codesandbox.io/p/devbox/";
   const url = new URL(baseUrl + id);

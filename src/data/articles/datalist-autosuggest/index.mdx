@@ -1,0 +1,356 @@
+---
+title: Using the HTML Data List Element for Simple Combo Boxes
+description: >
+  Learn how the HTML <datalist> element can create simple yet powerful combo
+  boxes with dynamic suggestions.
+published: 2020-09-12T12:09:37-07:00
+updated: 2020-09-20T05:03:27-07:00
+summary: >
+  Discover how the HTML `<datalist>` element can simplify your combo box
+  implementations. This article walks through practical examples, refactors,
+  and enhancements for improved usability and accessibility, providing a
+  flexible solution for dynamic auto-suggest features.
+---
+
+import { CodeSandbox } from "@/components/CodeSandbox";
+
+import { Pronoun } from "./Pronoun";
+import { Search } from "./Search";
+
+## Table of Contents
+
+```toc
+to-heading: 3
+```
+
+## Use Case
+
+For a search feature, we're storing the 100 most recently used ("MRU") search
+terms. In the search box, we want to auto suggest based on the MRU terms, but
+not restrict the input to just those terms.
+
+<Search client:visible />
+
+## Solution: HTML `<datalist>`
+
+Until recently, I didn't know about the [`<datalist>`][datalist] element until I
+read [Peter Bengtsson's article][peter]. [According to MDN][datalist]:
+
+> The HTML `<datalist>` element contains a set of `<option>` elements that
+> represent the permissible or recommended options available to choose from
+> within other controls.
+
+Sounds exactly like what we need.
+
+### Version 1
+
+Let's start with a basic implementation:
+
+```js {1-2,4-8,18-19,26-30}
+const [term, setTerm] = React.useState("");
+const [mruTerms, setMruTerms] = React.useState([]);
+
+React.useEffect(() => {
+  fetch("https://random-word-api.herokuapp.com/word?number=100")
+    .then((response) => response.json())
+    .then((data) => setMruTerms(data));
+}, []);
+
+return (
+  <main>
+    <form
+      autoComplete="off"
+      onSubmit={(e) => {
+        e.preventDefault();
+        const term = e.currentTarget.term.value;
+        if (term.trim() !== "") {
+          setTerm(term.trim());
+          setMruTerms([...new Set([term.trim(), ...mruTerms])].slice(0, 100));
+        }
+      }}
+    >
+      <label htmlFor="term">Search term</label>
+      <input list="mru-terms" id="term" name="term" />
+
+      <datalist id="mru-terms" key={term}>
+        {mruTerms.map((term) => (
+          <option key={term} value={term} />
+        ))}
+      </datalist>
+
+      <button>Search</button>
+    </form>
+
+    <p>Submitted term: {term}</p>
+  </main>
+);
+```
+
+1. We keep track of two pieces of context data: what the user submits (`term`),
+   and the list of MRU terms (`mruTerms`).
+1. We initialize `mruTerms` when the component is first rendered. In a real app,
+   this can be fetched from a service, upstream app state, or `localStorage`.
+1. `<option>` elements of the `<datalist>` are generated from `mruTerms`. Notice
+   the entire `<datalist>` component is replaced every time `term` changes since
+   we bind it to the `key` prop.
+   - You can think of `mruTerms` as a detail of `term`, since every time `term`
+     changes, we are generating a new array of associated `mruTerms`.
+   - As a bonus, this also works around a longstanding [Firefox bug][] with
+     dynamic datalists.
+1. Each time the user performs a search, both `term` and `mruTerms` are updated
+   (and persisted in a real app).
+
+<CodeSandbox
+  client:visible
+  heading="h4"
+  id="datalist-autosuggest-v1-nq0dz"
+  title="v1 demo of datalist"
+/>
+
+### Version 2
+
+With very little code, our autosuggest feature already works pretty well. Let's
+refactor our code so all context data is handled within a single object:
+
+```js {2,15}
+const useInitialize = () => {
+  const [{ term, mruTerms }, dispatch] = React.useReducer(reducer, initialData);
+  React.useEffect(() => {
+    fetch("https://random-word-api.herokuapp.com/word?number=100")
+      .then((response) => response.json())
+      .then((payload) => dispatch({ type: "init", payload }));
+  }, []);
+
+  const actions = {
+    updateTerm: (payload) => dispatch({ type: "updateTerm", payload }),
+  };
+  return { term, mruTerms, actions };
+};
+
+const initialData = { term: "", mruTerms: [] };
+
+const reducer = (data, { type, payload }) => {
+  const { term, mruTerms } = data;
+  switch (type) {
+    case "init":
+      return { term, mruTerms: payload };
+    case "updateTerm":
+      if (payload.trim() === "") return data;
+      return {
+        term: payload.trim(),
+        mruTerms: [...new Set([payload.trim(), ...mruTerms])].slice(0, 100),
+      };
+    default:
+      return data;
+  }
+};
+```
+
+1. Instead of multiple `useState`s, we consolidate into a single `useReducer`.
+1. We move most of the business logic into a custom hook, simplifying the actual
+   component.
+
+<CodeSandbox
+  client:visible
+  heading="h4"
+  id="datalist-autosuggest-v2-rutk0"
+  title="v1 demo of datalist"
+/>
+
+### Version 3
+
+For our purposes, the search terms "ice cream", "Ice Cream", and " ICE CREAM "
+are all considered equivalents. We want to store the last version used (minus
+the surrounding spaces) without duplicates in `mruTerms`.
+
+Let's create couple helper functions first:
+
+```js
+const addMruTerm = (mruTerms, term) =>
+  [term, ...mruTerms]
+    .reduce(
+      (unique, item) =>
+        unique.some((e) => trimLower(e) === trimLower(item))
+          ? unique
+          : [...unique, item.trim()],
+      [],
+    )
+    .slice(0, 100);
+
+const trimLower = (term) => term.trim().toLowerCase();
+```
+
+Then we change how we update `mruTerms` in the reducer:
+
+```js
+mruTerms: addMruTerm(mruTerms, payload);
+```
+
+<CodeSandbox
+  client:visible
+  heading="h4"
+  id="datalist-autosuggest-v3-hc8hr"
+  title="v1 demo of datalist"
+/>
+
+### Version 4
+
+Our autosuggest feature is starting to work nicely. You'll notice that Chrome
+and Firefox sort suggestions in the `mruTerms` array order. I think a better
+experience would be to sort by three major sections. For example, if the search
+term is "cr":
+
+1. First, suggestions that begin with the current search term, e.g.
+   "<mark>cr</mark>anial", "<mark>cr</mark>eamery".
+1. Next, suggestions that contain words that start with the current search, e.g.
+   "heavy <mark>cr</mark>ate", "ice <mark>cr</mark>eam".
+1. Finally, suggestions that contain the search term, anywhere, e.g.
+   "dis<mark>cr</mark>eet", "s<mark>cr</mark>ibe".
+
+Within each section, we can further sort alphabetically.
+
+In order to accomplish this, we need to update `<datalist>` as we type the
+search term. This means we need to keep track of couple additional pieces of
+context data: `draft` and `sortedMruTerms`:
+
+```js
+const initialData = { draft: "", term: "", mruTerms: [], sortedMruTerms: [] };
+```
+
+We also add another helper function `sortMruTerms`, and adjust the `reducer`
+accordingly:
+
+```js {4-18,24}
+const reducer = (data, { type, payload }) => {
+  const { draft, mruTerms } = data;
+  switch (type) {
+    case "init":
+      return { ...data, mruTerms: payload, sortedMruTerms: payload };
+    case "updateDraft":
+      return {
+        ...data,
+        draft: payload,
+        sortedMruTerms: sortMruTerms(mruTerms, payload),
+      };
+    case "updateTerm":
+      if (draft.trim() === "") return data;
+      return {
+        ...data,
+        term: draft.trim(),
+        mruTerms: addMruTerm(mruTerms, draft),
+      };
+    default:
+      return data;
+  }
+};
+
+const sortMruTerms = (mruTerms, term) => {
+  const partial = trimLower(term);
+  if (partial === "") return mruTerms;
+
+  let terms = [...mruTerms];
+  let sorted = [];
+
+  sortFilters(partial).forEach((filter) => {
+    sorted = [...sorted, ...terms.filter(filter).sort()];
+    terms = terms.filter((t) => !sorted.includes(t));
+  });
+
+  return sorted;
+};
+
+const sortFilters = (partial) => [
+  (t) => trimLower(t).startsWith(partial),
+  (t) => RegExp(`\\b${partial}`, "i").test(t),
+  (t) => RegExp(partial, "i").test(t),
+];
+```
+
+1. Initialize `sortedMruTerms`.
+1. Add action to handle `updateDraft`, which is called each time the search term
+   changes.
+1. `updateTerm` no longer requires a payload, since we can calculate new context
+   values based on `draft`.
+1. Make some tweaks to the custom hook (I trust you can figure this part out on
+   your own).
+
+Lastly, some minor adjustments in the JSX and we're done:
+
+```js {2-3,9-10}
+<input
+  value={draft}
+  onChange={(e) => actions.updateDraft(e.currentTarget.value)}
+  list="mru-terms"
+  id="term"
+  name="term"
+/>
+
+<datalist id="mru-terms" key={draft}>
+  {sortedMruTerms.map((term) => (
+    <option key={term} value={term} />
+  ))}
+</datalist>
+```
+
+1. Convert the search term `<input>` into a controlled component, binding its
+   value to `draft` and event handling to `updateDraft`.
+1. `<datalist>` is now replaced every time `draft` changes, and its values come
+   from `sortedMruTerms`.
+
+<CodeSandbox
+  client:visible
+  heading="h4"
+  id="datalist-autosuggest-v4-6ux86"
+  title="v1 demo of datalist"
+/>
+
+As you can see, by abstracting the logic out from the component, we can easily
+tweak the behavior while minimizing changes to the component itself. We can also
+test the utility functions independently. Composition FTW 🙌.
+
+Can you think of other improvements to this feature? Fork one of the
+CodeSandboxes and see what you come up with.
+
+## Accessibility
+
+[Weston Thayer][] and I had a discussion about accessibility for data list. He
+pointed out the following issues and resources for further investigation.
+
+[There are potentially some accessibility issues][a11y] that may prevent you
+from using this technique, specifically screen readers do not convey data list
+changes. This may be acceptable in the case of auto suggest, since the user is
+free to enter whatever they like—the auto suggest feature is a nice-to-have.
+
+For a React-specific alternative, [check out Reach UI's
+Combobox][reach-ui-combobox]. Also [read 24 Accessibility's "&lt;select&gt; Your
+Poision"][select-your-poision] article for in-depth discussion of why this is a
+hard-to-solve problem.
+
+## Other Use Cases
+
+It occurred to me that this technique can be used in situations where you want
+to normalize data as much as possible, while still allowing the user to freely
+enter anything they like.
+
+[In a recent article](/articles/workplace-justice-ally), I talked about the
+issue of HR asking for personal pronouns. HR would like the data to be as
+consistent as possible, but the right thing to do is to allow people to enter
+whatever they want. Here's a possible implementation that fulfills both
+requirements:
+
+<Pronoun client:visible />
+
+## Takeaways
+
+- For combo boxes, try the built-in `<datalist>` element first.
+- You can dynamically generate the datalist options based on events.
+- Abstract out as much logic as possible from your components for composability,
+  testability, and agility.
+
+[a11y]: https://a11ysupport.io/tech/html/datalist_element
+[datalist]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist
+[firefox bug]: https://bugzilla.mozilla.org/show_bug.cgi?id=1474137
+[peter]: https://www.peterbe.com/plog/datalist-looks-great-on-mobile-devices
+[reach-ui-combobox]: https://reach.tech/combobox/
+[select-your-poision]: https://www.24a11y.com/2019/select-your-poison/
+[weston thayer]: https://westonthayer.com
