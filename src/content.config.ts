@@ -10,6 +10,7 @@ const articles = defineCollection({
     summary: z.string(),
     published: z.date(),
     updated: z.date().optional(),
+    tocDepth: z.number().optional(),
   }),
 });
 

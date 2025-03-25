@@ -1,4 +1,3 @@
-// @ts-check
 import { defineConfig } from "astro/config";
 
 import mdx from "@astrojs/mdx";
@@ -9,6 +8,7 @@ import tailwindcss from "@tailwindcss/vite";
 import expressiveCode from "astro-expressive-code";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
+import remarkToc from "remark-toc";
 
 export default defineConfig({
   site: process.env.SITE_URL || "https://gsong.dev",
@@ -18,7 +18,7 @@ export default defineConfig({
   integrations: [
     react(),
     expressiveCode({
-      themes: ["catppuccin-latte", "catppuccin-frappe"],
+      themes: ["catppuccin-latte", "github-dark"],
       plugins: [pluginLineNumbers()],
       frames: {
         showCopyToClipboardButton: false,
@@ -29,6 +29,7 @@ export default defineConfig({
   ],
 
   markdown: {
+    remarkPlugins: [dynamicToc],
     rehypePlugins: [
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: "append" }],
@@ -41,3 +42,10 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 });
+
+function dynamicToc() {
+  return (tree, { data }) => {
+    const maxDepth = data.astro.frontmatter.tocDepth || 2;
+    return remarkToc({ maxDepth })(tree);
+  };
+}

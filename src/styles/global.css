@@ -1,7 +1,7 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
-
 @import "./components.css";
+
+@plugin "@tailwindcss/typography";
 
 @theme {
   --breakpoint-xs: 30rem;
