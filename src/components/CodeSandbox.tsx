@@ -2,7 +2,11 @@ import type { JSX } from "react";
 
 import { useState } from "react";
 
-import { ExternalLinkIcon, KeyboardIcon } from "@radix-ui/react-icons";
+import {
+  ExclamationTriangleIcon,
+  ExternalLinkIcon,
+  KeyboardIcon,
+} from "@radix-ui/react-icons";
 import { clsx } from "clsx";
 
 interface CodeSandboxProps extends React.ComponentPropsWithoutRef<"iframe"> {
@@ -35,15 +39,21 @@ export const CodeSandbox = ({
       )}
 
       {isIphone ? (
-        <a
-          href={createCodeSandboxUrl(id, { file, isEmbedded: false })}
-          target="_blank"
-          rel="noreferrer"
-          className="flex-center"
-        >
-          <ExternalLinkIcon className="size-[1.15em]" />
-          Open Sandbox
-        </a>
+        <>
+          <a
+            href={createCodeSandboxUrl(id, { file, isEmbedded: false })}
+            target="_blank"
+            rel="noreferrer"
+            className="flex-center"
+          >
+            <ExternalLinkIcon className="size-[1.15em]" />
+            Open Sandbox
+          </a>
+          <p className="flex-center mt-1 text-sm text-yellow-600">
+            <ExclamationTriangleIcon className="size-[1.15em]" />
+            CodeSandbox may not work on iPhones.
+          </p>
+        </>
       ) : shouldLoad ? (
         <div className="@container">
           <iframe
