@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import { Markdown } from "@astropub/md";
 
 import headshot from "@/assets/gs-headshot.jpg";
+import { ColorSchemeToggle } from "@/components/ColorSchemeToggle";
 import Layout from "@/layouts/base/Layout.astro";
 
 const articles = (await getCollection("articles")).sort(
@@ -13,14 +14,14 @@ const articles = (await getCollection("articles")).sort(
 
 <Layout>
   <header
-    class="prose-default flex-center my-1 !mb-6 justify-center gap-[1em] sm:my-2"
+    class="prose-default my-1 !mb-6 flex items-start justify-center gap-[1em] sm:my-2"
   >
-    <Image
-      src={headshot}
-      alt=""
-      width="250"
-      class="!m-0 size-20 rounded-sm rounded-tr-2xl rounded-bl-2xl sm:size-30 sm:rounded-tr-4xl sm:rounded-bl-4xl"
-    />
+    <div class="avatar">
+      <div class="mask mask-squircle xs:w-20 w-15 lg:w-26">
+        <Image src={headshot} alt="" width="250" class="!m-0" />
+      </div>
+    </div>
+
     <h1
       class="!m-0 text-left !text-xl font-semibold sm:!text-2xl md:!text-3xl lg:!text-4xl"
     >
@@ -29,6 +30,8 @@ const articles = (await getCollection("articles")).sort(
         <span>I’m George. I help software teams be more effective.</span>
       </div>
     </h1>
+
+    <ColorSchemeToggle client:load />
   </header>
 
   <main class="prose-default w-full">

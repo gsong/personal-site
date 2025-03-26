@@ -4,6 +4,7 @@ import { getCollection, render } from "astro:content";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 
 import headshot from "@/assets/gs-headshot.jpg";
+import { ColorSchemeToggle } from "@/components/ColorSchemeToggle";
 import Layout from "@/layouts/base/Layout.astro";
 
 export async function getStaticPaths() {
@@ -31,7 +32,9 @@ function formatDate(date = new Date()) {
 ---
 
 <Layout title={`George Song | Article: ${title}`} description={description}>
-  <header class="prose-default my-1 !mb-6 w-full sm:my-2">
+  <header
+    class="prose-default flex-center my-1 !mb-6 w-full justify-between sm:my-2"
+  >
     <a
       href="/"
       aria-label="Return home"
@@ -45,6 +48,7 @@ function formatDate(date = new Date()) {
       />
       George Song
     </a>
+    <ColorSchemeToggle client:load />
   </header>
 
   <main

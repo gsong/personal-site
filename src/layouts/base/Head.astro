@@ -49,3 +49,40 @@ const IMAGE_URL = `${BASE_URL}social-card.jpg`;
 
   <ClientRouter />
 </head>
+
+<script is:inline>
+  const key = "color-scheme";
+  const THEME_MAP = {
+    light: { daisy: "winter" },
+    dark: { daisy: "night" },
+  };
+
+  window.colorScheme = {
+    get: () => localStorage.getItem(key) ?? "system",
+    set: (colorScheme) => {
+      localStorage.setItem(key, colorScheme);
+      window.setThemes(colorScheme);
+    },
+  };
+
+  window.setThemes = (colorScheme, doc = document) => {
+    const root = doc.documentElement;
+
+    if (colorScheme === "system") {
+      const systemDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      root.dataset.theme = systemDark
+        ? THEME_MAP.dark.daisy
+        : THEME_MAP.light.daisy;
+    } else {
+      root.dataset.theme = THEME_MAP[colorScheme].daisy;
+    }
+  };
+
+  window.setThemes(window.colorScheme.get());
+
+  document.addEventListener("astro:before-swap", (event) => {
+    window.setThemes(window.colorScheme.get(), event.newDocument);
+  });
+</script>

@@ -3,7 +3,6 @@
 
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
-  /* biome-ignore lint/correctness/noUnknownProperty: this is expected */
   themes:
     winter --default,
     night --prefersdark;
