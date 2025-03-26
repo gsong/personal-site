@@ -10,7 +10,8 @@
     "dev": "astro dev",
     "postinstall": "is-ci || mise postinstall",
     "prepreview": "pnpm run build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "fix": "astro check && biome check --fix && prettier --write ."
   },
   "dependencies": {
     "@nanostores/react": "^0.8.4",
