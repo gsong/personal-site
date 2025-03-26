@@ -62,7 +62,7 @@ export const CodeSandbox = ({
             allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
             sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
             className={clsx(
-              "mx-[calc((100%-100vw)/2)] h-[clamp(150px,60vh,800px)] w-[100vw] rounded-md",
+              "mx-[calc((100%-100vw)/2)] h-[clamp(150px,60vh,800px)] w-[100vw]",
               className,
             )}
           />

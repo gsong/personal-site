@@ -8,18 +8,18 @@
   }
 
   a {
-    @apply !text-blue-600 !decoration-blue-600/40 underline-offset-[0.125em] hover:!text-blue-800 hover:!decoration-blue-800 dark:text-blue-500;
+    @apply !link !link-primary !decoration-current/40 hover:!decoration-current;
   }
 
   button {
-    @apply rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
+    @apply btn btn-primary;
   }
 
   input {
-    @apply rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
+    @apply input;
   }
 
   select {
-    @apply rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
+    @apply select;
   }
 }

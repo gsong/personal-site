@@ -2,6 +2,14 @@
 @import "./components.css";
 
 @plugin "@tailwindcss/typography";
+@plugin "daisyui" {
+  /* biome-ignore lint/correctness/noUnknownProperty: this is expected */
+  themes:
+    winter --default,
+    night --prefersdark;
+}
+
+@layer theme, base, utilities, components, custom;
 
 @theme {
   --breakpoint-xs: 30rem;

@@ -18,7 +18,7 @@ export default defineConfig({
   integrations: [
     react(),
     expressiveCode({
-      themes: ["catppuccin-latte", "github-dark"],
+      themes: ["catppuccin-latte", "catppuccin-frappe", "github-dark"],
       plugins: [pluginLineNumbers()],
       frames: {
         showCopyToClipboardButton: false,

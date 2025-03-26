@@ -8,6 +8,22 @@ importers:
 
   .:
     dependencies:
+      '@radix-ui/react-icons':
+        specifier: ^1.3.2
+        version: 1.3.2(react@19.0.0)
+      random-words:
+        specifier: ^2.0.1
+        version: 2.0.1
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.0.0(react@19.0.0)
+    devDependencies:
+      '@astrojs/check':
+        specifier: ^0.9.4
+        version: 0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.8.2)
       '@astrojs/mdx':
         specifier: ^4.2.1
         version: 4.2.1(astro@5.5.4(@netlify/blobs@8.1.1)(@types/node@22.13.11)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.37.0)(typescript@5.8.2)(yaml@2.7.0))
@@ -20,40 +36,12 @@ importers:
       '@astropub/md':
         specifier: ^1.0.0
         version: 1.0.0(@astrojs/markdown-remark@6.3.1)
-      '@expressive-code/plugin-line-numbers':
-        specifier: ^0.40.2
-        version: 0.40.2
-      '@radix-ui/react-icons':
-        specifier: ^1.3.2
-        version: 1.3.2(react@19.0.0)
-      astro:
-        specifier: ^5.5.4
-        version: 5.5.4(@netlify/blobs@8.1.1)(@types/node@22.13.11)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.37.0)(typescript@5.8.2)(yaml@2.7.0)
-      astro-expressive-code:
-        specifier: ^0.40.2
-        version: 0.40.2(astro@5.5.4(@netlify/blobs@8.1.1)(@types/node@22.13.11)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.37.0)(typescript@5.8.2)(yaml@2.7.0))
-      clsx:
-        specifier: ^2.1.1
-        version: 2.1.1
-      random-words:
-        specifier: ^2.0.1
-        version: 2.0.1
-      react:
-        specifier: ^19.0.0
-        version: 19.0.0
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.0.0(react@19.0.0)
-      tailwindcss:
-        specifier: ^4.0.15
-        version: 4.0.15
-    devDependencies:
-      '@astrojs/check':
-        specifier: ^0.9.4
-        version: 0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.8.2)
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
+      '@expressive-code/plugin-line-numbers':
+        specifier: ^0.40.2
+        version: 0.40.2
       '@tailwindcss/typography':
         specifier: ^0.5.16
         version: 0.5.16(tailwindcss@4.0.15)
@@ -66,6 +54,18 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.4
         version: 19.0.4(@types/react@19.0.12)
+      astro:
+        specifier: ^5.5.4
+        version: 5.5.4(@netlify/blobs@8.1.1)(@types/node@22.13.11)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.37.0)(typescript@5.8.2)(yaml@2.7.0)
+      astro-expressive-code:
+        specifier: ^0.40.2
+        version: 0.40.2(astro@5.5.4(@netlify/blobs@8.1.1)(@types/node@22.13.11)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.37.0)(typescript@5.8.2)(yaml@2.7.0))
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      daisyui:
+        specifier: ^5.0.9
+        version: 5.0.9
       is-ci:
         specifier: ^4.1.0
         version: 4.1.0
@@ -96,6 +96,9 @@ importers:
       sharp:
         specifier: ^0.33.5
         version: 0.33.5
+      tailwindcss:
+        specifier: ^4.0.15
+        version: 4.0.15
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
@@ -2460,6 +2463,9 @@ packages:
 
   cyclist@1.0.2:
     resolution: {integrity: sha512-0sVXIohTfLqVIW3kb/0n6IiWF3Ifj5nm2XaSrLq2DI6fKIGa2fYAZdk917rUneaeLVpYfFcyXE2ft0fe3remsA==}
+
+  daisyui@5.0.9:
+    resolution: {integrity: sha512-RsaehHh45f+0shWgZZaOY09/8eOae2voRsqJCD71j9yrnYgcke0Nj5ys0ZxrW4SPcc4+q96kWyJu0Z8P1zZdoA==}
 
   data-uri-to-buffer@4.0.1:
     resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
@@ -8724,6 +8730,8 @@ snapshots:
   csstype@3.1.3: {}
 
   cyclist@1.0.2: {}
+
+  daisyui@5.0.9: {}
 
   data-uri-to-buffer@4.0.1: {}
 
