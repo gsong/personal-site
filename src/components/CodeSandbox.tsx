@@ -13,28 +13,37 @@ interface CodeSandboxProps extends React.ComponentPropsWithoutRef<"iframe"> {
   id: string;
   title: string;
   file?: string;
-  heading?:
-    | "hide"
-    | keyof JSX.IntrinsicElements
-    | React.ComponentType<React.HTMLAttributes<HTMLHeadingElement>>;
+  heading?: {
+    component?:
+      | keyof JSX.IntrinsicElements
+      | React.ComponentType<React.HTMLAttributes<HTMLHeadingElement>>;
+    label?: string;
+    hide?: boolean;
+  };
 }
 
 export const CodeSandbox = ({
   id,
   title,
   file,
-  heading: Heading = "h3",
+  heading = {},
   className,
 }: CodeSandboxProps) => {
   const [shouldLoad, setShouldLoad] = useState(false);
   const isIphone = /iPhone/.test(navigator.userAgent);
 
+  const {
+    component: Heading = "h3",
+    label = "Try It Out",
+    hide: hideHeading = false,
+  } = heading;
+
   return (
     <>
-      {Heading === "hide" ? null : (
+      {hideHeading ? null : (
         <Heading className="flex-center">
           <KeyboardIcon className="size-[1.15em]" />
-          Try It Out
+          {label}
         </Heading>
       )}
 

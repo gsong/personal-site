@@ -31,7 +31,7 @@ const articles = (await getCollection("articles")).sort(
       </div>
     </h1>
 
-    <ColorSchemeToggle client:load />
+    <ColorSchemeToggle client:only="react" />
   </header>
 
   <main class="prose-default w-full">

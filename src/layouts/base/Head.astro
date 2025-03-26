@@ -78,6 +78,12 @@ const IMAGE_URL = `${BASE_URL}social-card.jpg`;
   };
 
   window.setThemes(window.colorScheme.get());
+</script>
+
+<script>
+  import { colorScheme } from "@/store";
+
+  colorScheme.set(window.colorScheme.get());
 
   document.addEventListener("astro:before-swap", (event) => {
     window.setThemes(window.colorScheme.get(), event.newDocument);

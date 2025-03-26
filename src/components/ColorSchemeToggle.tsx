@@ -1,7 +1,10 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect } from "react";
 
+import { useStore } from "@nanostores/react";
 import { DesktopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { clsx } from "clsx";
+
+import { colorScheme as _colorScheme } from "@/store";
 
 export const ColorSchemeToggle = () => {
   const { colorScheme, getNextColorScheme, cycleColorScheme } =
@@ -23,32 +26,28 @@ export const ColorSchemeToggle = () => {
         className={clsx({ hidden: colorScheme !== "dark" }, "size-7")}
       />
       <span className="sr-only">
-        Activate {getNextColorScheme(colorScheme)} color scheme
+        Activate {getNextColorScheme()} color scheme
       </span>
     </button>
   );
 };
 
 const useColorScheme = () => {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>("system");
+  const $colorScheme = useStore(_colorScheme);
 
-  const getNextColorScheme = (prev: ColorScheme): ColorScheme => {
-    if (prev === "light") return "dark";
-    if (prev === "dark") return "system";
+  const getNextColorScheme = (): ColorScheme => {
+    if ($colorScheme === "light") return "dark";
+    if ($colorScheme === "dark") return "system";
     return "light";
   };
 
   const cycleColorScheme = () => {
-    setColorScheme(getNextColorScheme);
+    _colorScheme.set(getNextColorScheme());
   };
 
   useLayoutEffect(() => {
-    setColorScheme(window.colorScheme.get());
-  }, []);
+    window.colorScheme.set($colorScheme);
+  }, [$colorScheme]);
 
-  useLayoutEffect(() => {
-    window.colorScheme.set(colorScheme);
-  }, [colorScheme]);
-
-  return { colorScheme, getNextColorScheme, cycleColorScheme };
+  return { colorScheme: $colorScheme, getNextColorScheme, cycleColorScheme };
 };

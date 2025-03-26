@@ -1,0 +1,203 @@
+---
+title: React.useReducer Reducer Patterns, Part 1
+published: 2020-07-19T12:06:41-07:00
+updated: 2021-04-01T16:20:10-07:00
+description: >
+  Learn practical `useReducer` patterns for writing clear and effective
+  reducers, starting with no-param and current state-only approaches.
+summary: >
+  Discover practical patterns for writing reducers with `useReducer`. This
+  guide introduces key concepts, starting with reducers that require no
+  parameters or rely solely on the current state, making state management
+  simpler and more efficient.
+---
+
+import { CodeSandbox } from "@/components/CodeSandbox";
+import { Mermaid } from "@/components/Mermaid";
+
+export const stateChart = `
+sequenceDiagram
+  participant setState
+  participant state
+
+setState -->> state: replace with new state
+`
+
+export const reducerChart = `
+sequenceDiagram
+  autonumber
+
+participant dispatch
+participant state
+participant reducer
+
+par
+dispatch ->> reducer: action
+state ->> reducer: current state
+end
+
+reducer ->> reducer: compute new state
+
+reducer -->> state: replace with new state
+`
+
+I see a lot of people, especially those new to React hooks, shy away from
+[`useReducer`][usereducer] in favor of multiple `useState`s. I think some of it
+is the simplicity of the `useState` API, and some of it is assumed complexity
+via association with [Redux][]. In practice, `useReducer` has a lot more in
+common with `useState` than Redux.
+
+## Table of Contents
+
+## Updating State With `useState` and `useReducer`
+
+The `useState` API has two parts: the state and the state setter. When you want
+to update the state, you replace it using the state setter.
+
+<Mermaid client:only="react" chart={stateChart} />
+
+The `useReducer` API has three parts: the state, an action dispatcher, and a
+reducer to produce the new state.
+
+<Mermaid client:only="react" chart={reducerChart} />
+
+When you want to update the state:
+
+1. Dispatch an action.
+1. The hook passes the current state and the action to the reducer function.
+1. The reducer computes a new state.
+1. The state is updated with the new state.
+
+`useReducer` takes care of steps 2 and 4. You're responsible for steps 1 and 3.
+
+## The Reducer Function
+
+These are all valid signatures for reducer functions:
+
+```js
+(currentState, dispachedAction) => newState
+(currentState) => newState
+() => newState
+```
+
+As you can see, <mark>the primary job of a reducer is to produce a new
+state</mark>, optionally taking into account the current state and the
+dispatched action.
+
+## Putting It All Together With useReducer
+
+[The signature of `useReducer`][usereducer] is:
+
+```js
+const [state, dispatch] = useReducer(reducer, initialState);
+```
+
+You pass in a `reducer` function (and optionally an `initialState`) to
+instantiate a `useReducer` hook. What you get back is a **read-only** `state`
+and a `dispatch` function which you'll use to trigger the `reducer`.
+
+This is one of the key differences when compared to `useState`—a `useReducer`
+hook computes the next state internally using a `reducer` function, while a
+`useState` hook relies entirely on external calculations for its next state.
+
+For the rest of the article, we'll focus on different `reducer` (a.k.a. "new
+state" calculator) implementation patterns.
+
+## Reducer Without Any Params
+
+`() => newState`
+
+The primary job of a reducer is to return a new state. In its simplest form, a
+reducer doesn't even need to accept any parameters.
+
+```js {1,2,7,9}
+const reducer = () => new Date();
+const [date, update] = React.useReducer(reducer, new Date());
+
+return (
+  <main>
+    <div>
+      Now: {date.toLocaleDateString()} {date.toLocaleTimeString()}
+    </div>
+    <button onClick={update}>Update</button>
+  </main>
+);
+```
+
+The names `state`, `dispatch`, and `reducer` are conceptual. In practice, you
+can name them anything you like. In this example, they are `date` (state),
+`update` (dispatch), and `reducer`.
+
+Notice that we invoke `update()` _without_ passing in any parameters. The
+dispatch function signals the hook to run the reducer function, it's up to you
+whether you need to send an action with the signal or not. In this case, the
+hook actually runs `reducer(currentState, undefined)`.
+
+### 🤔 But Wait, the Reducer Doesn't Accept Any Params
+
+That's right. In JavaScript, just because you pass parameters to a function,
+doesn't mean it needs to accept them.
+
+```js
+const sayHi = () => "hi";
+const result = sayHi(1, 2, 3);
+// result === "hi"
+```
+
+<CodeSandbox
+  client:visible
+  id="reducer-pattern-00-zuet6"
+  heading={{ label: "Try the No-Params Reducer Example" }}
+  title="no-params reducer"
+  className="max-h-[500px]"
+/>
+
+## Reducer Using Current State
+
+`(currentState) => newState`
+
+This form of reducer is useful when you need the current state to calculate the
+next state.
+
+```js {1,2,6,7}
+const reducer = (count) => count + 1;
+const [count, addOne] = React.useReducer(reducer, 0);
+
+return (
+  <main>
+    <div>{count}</div>
+    <button onClick={addOne}>Add 1</button>
+  </main>
+);
+```
+
+Once again, the dispatch function, `addOne()`, doesn't need to pass an action to
+`reducer`—the `reducer` is capable of computing the next state entirely based on
+the current state.
+
+<CodeSandbox
+  client:visible
+  id="reducer-pattern-01-gmuic"
+  title="current state reducer"
+  className="max-h-[500px]"
+/>
+
+## Takeaways
+
+- The primary job of a reducer is to produce a new state.
+- A reducer function can take zero, one, or two params:
+  `([currentState], [dispachedAction])`.
+- `dispatch()` signals the `useReducer` hook to invoke the reducer.
+
+## Intermission
+
+😅 Whew, let's take a break for now. [In part 2][part-2]: we'll explore reducers
+that use actions, as well as actions in combination with the current state.
+
+- [Part 2: Reducers with actions][part-2]
+- [Part 3: Reducers with switch statements][part-3]
+
+[part-2]: /articles/reducer-patterns/part-2/
+[part-3]: /articles/reducer-patterns/part-3/
+[redux]: https://redux.js.org
+[usereducer]: https://reactjs.org/docs/hooks-reference.html#usereducer

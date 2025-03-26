@@ -1,16 +1,16 @@
 ---
 title: Using the HTML Data List Element for Simple Combo Boxes
-description: >
-  Learn how the HTML <datalist> element can create simple yet powerful combo
-  boxes with dynamic suggestions.
 published: 2020-09-12T12:09:37-07:00
 updated: 2020-09-20T05:03:27-07:00
+tocDepth: 3
+description: >
+  Learn how the HTML `<datalist>` element can create simple yet powerful combo
+  boxes with dynamic suggestions.
 summary: >
   Discover how the HTML `<datalist>` element can simplify your combo box
   implementations. This article walks through practical examples, refactors,
   and enhancements for improved usability and accessibility, providing a
   flexible solution for dynamic auto-suggest features.
-tocDepth: 3
 ---
 
 import { CodeSandbox } from "@/components/CodeSandbox";
@@ -99,7 +99,7 @@ return (
 
 <CodeSandbox
   client:visible
-  heading="h4"
+  heading={{ component: "h4" }}
   id="datalist-autosuggest-v1-nq0dz"
   title="v1 demo of datalist"
 />
@@ -149,7 +149,7 @@ const reducer = (data, { type, payload }) => {
 
 <CodeSandbox
   client:visible
-  heading="h4"
+  heading={{ component: "h4" }}
   id="datalist-autosuggest-v2-rutk0"
   title="v1 demo of datalist"
 />
@@ -185,7 +185,7 @@ mruTerms: addMruTerm(mruTerms, payload);
 
 <CodeSandbox
   client:visible
-  heading="h4"
+  heading={{ component: "h4" }}
   id="datalist-autosuggest-v3-hc8hr"
   title="v1 demo of datalist"
 />
@@ -296,7 +296,7 @@ Lastly, some minor adjustments in the JSX and we're done:
 
 <CodeSandbox
   client:visible
-  heading="h4"
+  heading={{ component: "h4" }}
   id="datalist-autosuggest-v4-6ux86"
   title="v1 demo of datalist"
 />
