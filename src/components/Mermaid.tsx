@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useStore } from "@nanostores/react";
 import mermaid from "mermaid";
@@ -9,28 +9,13 @@ interface Props {
   chart: string;
 }
 
+/**
+ * Component that renders a Mermaid diagram
+ * @param {string} chart - The Mermaid diagram definition
+ */
 export const Mermaid = ({ chart }: Props) => {
   const $colorScheme = useStore(colorScheme);
-  const [svg, setSvg] = useState<string>("");
-  const id = useMemo(() => getPreciseTime(), []);
-
-  useEffect(() => {
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: $colorScheme === "dark" ? "dark" : "default",
-    });
-
-    const renderChart = async () => {
-      try {
-        const { svg } = await mermaid.render(`chart-${id}`, chart);
-        setSvg(svg);
-      } catch (error) {
-        console.error("Error rendering Mermaid chart:", error);
-      }
-    };
-
-    renderChart();
-  }, [$colorScheme, chart, id]);
+  const svg = useMermaid(chart, $colorScheme);
 
   return (
     <div
@@ -40,6 +25,39 @@ export const Mermaid = ({ chart }: Props) => {
     />
   );
 };
+
+function useMermaid(chart: string, colorScheme: ColorScheme) {
+  const [svg, setSvg] = useState<string>("");
+  const chartId = useRef(`chart-${getPreciseTime()}`);
+
+  useEffect(() => {
+    initializeMermaid(colorScheme);
+    renderMermaidChart(chartId.current, chart, setSvg);
+  }, [colorScheme, chart]);
+
+  return svg;
+}
+
+function initializeMermaid(colorScheme: ColorScheme) {
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: colorScheme === "dark" ? "dark" : "default",
+  });
+}
+
+async function renderMermaidChart(
+  chartId: string,
+  chartDefinition: string,
+  setSvg: (svg: string) => void,
+) {
+  try {
+    const { svg } = await mermaid.render(chartId, chartDefinition);
+    setSvg(svg);
+  } catch (error) {
+    console.error("Error rendering Mermaid chart:", error);
+    setSvg(`<div class="text-red-500">Error rendering diagram</div>`);
+  }
+}
 
 function getPreciseTime() {
   return Math.floor((Date.now() + performance.now()) * 1000);

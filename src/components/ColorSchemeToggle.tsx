@@ -1,33 +1,31 @@
 import { useLayoutEffect } from "react";
 
+import { colorScheme as _colorScheme } from "@/store";
 import { useStore } from "@nanostores/react";
 import { DesktopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { clsx } from "clsx";
 
-import { colorScheme as _colorScheme } from "@/store";
+const COLOR_SCHEME_ICONS = {
+  system: DesktopIcon,
+  light: SunIcon,
+  dark: MoonIcon,
+} as const;
 
+/**
+ * A button that cycles through color scheme options (light/dark/system)
+ * and displays the appropriate icon for the current scheme.
+ */
 export const ColorSchemeToggle = () => {
-  const { colorScheme, getNextColorScheme, cycleColorScheme } =
-    useColorScheme();
+  const { currentScheme, nextScheme, cycleScheme } = useColorScheme();
+  const IconComponent = COLOR_SCHEME_ICONS[currentScheme];
 
   return (
     <button
-      onClick={cycleColorScheme}
+      onClick={cycleScheme}
       className="btn-circle btn-soft size-[48px]"
       type="button"
     >
-      <DesktopIcon
-        className={clsx({ hidden: colorScheme !== "system" }, "size-7")}
-      />
-      <SunIcon
-        className={clsx({ hidden: colorScheme !== "light" }, "size-7")}
-      />
-      <MoonIcon
-        className={clsx({ hidden: colorScheme !== "dark" }, "size-7")}
-      />
-      <span className="sr-only">
-        Activate {getNextColorScheme()} color scheme
-      </span>
+      <IconComponent className="size-7" />
+      <span className="sr-only">Activate {nextScheme} color scheme</span>
     </button>
   );
 };
@@ -35,19 +33,22 @@ export const ColorSchemeToggle = () => {
 const useColorScheme = () => {
   const $colorScheme = useStore(_colorScheme);
 
-  const getNextColorScheme = (): ColorScheme => {
-    if ($colorScheme === "light") return "dark";
-    if ($colorScheme === "dark") return "system";
-    return "light";
+  const SCHEME_CYCLE: Record<ColorScheme, ColorScheme> = {
+    light: "dark",
+    dark: "system",
+    system: "light",
   };
 
-  const cycleColorScheme = () => {
-    _colorScheme.set(getNextColorScheme());
-  };
+  const nextScheme = SCHEME_CYCLE[$colorScheme];
+  const cycleScheme = () => _colorScheme.set(nextScheme);
 
   useLayoutEffect(() => {
     window.colorScheme.set($colorScheme);
   }, [$colorScheme]);
 
-  return { colorScheme: $colorScheme, getNextColorScheme, cycleColorScheme };
+  return {
+    currentScheme: $colorScheme,
+    nextScheme,
+    cycleScheme,
+  };
 };
