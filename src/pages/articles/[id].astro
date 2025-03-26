@@ -4,7 +4,7 @@ import { getCollection, render } from "astro:content";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 
 import headshot from "@/assets/gs-headshot.jpg";
-import Layout from "@/layouts/Layout.astro";
+import Layout from "@/layouts/base/Layout.astro";
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles");
