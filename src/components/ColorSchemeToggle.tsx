@@ -3,11 +3,6 @@ import { useLayoutEffect, useState } from "react";
 import { DesktopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { clsx } from "clsx";
 
-// TODO:
-//   - Toggle expressive-code theme properly
-//   - a11y and style this properly
-//   - can we share code with inline script?
-
 export const ColorSchemeToggle = () => {
   const { colorScheme, getNextColorScheme, cycleColorScheme } =
     useColorScheme();

@@ -51,33 +51,30 @@ const IMAGE_URL = `${BASE_URL}social-card.jpg`;
 </head>
 
 <script is:inline>
-  const key = "color-scheme";
+  const KEY = "color-scheme";
   const THEME_MAP = {
-    light: { daisy: "winter" },
-    dark: { daisy: "night" },
+    light: { daisy: "winter", ec: "catppuccin-latte" },
+    dark: { daisy: "night", ec: "catppuccin-frappe" },
   };
 
   window.colorScheme = {
-    get: () => localStorage.getItem(key) ?? "system",
-    set: (colorScheme) => {
-      localStorage.setItem(key, colorScheme);
-      window.setThemes(colorScheme);
+    get: () => localStorage.getItem(KEY) ?? "system",
+    set: (scheme) => {
+      localStorage.setItem(KEY, scheme);
+      window.setThemes(scheme);
     },
   };
 
-  window.setThemes = (colorScheme, doc = document) => {
+  window.setThemes = (scheme, doc = document) => {
     const root = doc.documentElement;
+    const isSystem = scheme === "system";
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    const mode = isSystem ? (prefersDark ? "dark" : "light") : scheme;
 
-    if (colorScheme === "system") {
-      const systemDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-      root.dataset.theme = systemDark
-        ? THEME_MAP.dark.daisy
-        : THEME_MAP.light.daisy;
-    } else {
-      root.dataset.theme = THEME_MAP[colorScheme].daisy;
-    }
+    root.dataset.theme = THEME_MAP[mode].daisy;
+    root.dataset.ecTheme = THEME_MAP[mode].ec;
   };
 
   window.setThemes(window.colorScheme.get());
