@@ -26,7 +26,7 @@ For a search feature, we're storing the 100 most recently used ("MRU") search
 terms. In the search box, we want to auto suggest based on the MRU terms, but
 not restrict the input to just those terms.
 
-<Search client:visible />
+<Search client:idle />
 
 ## Solution: HTML `<datalist>`
 
@@ -98,10 +98,10 @@ return (
    (and persisted in a real app).
 
 <CodeSandbox
-  client:visible
-  heading={{ component: "h4" }}
+  client:idle
   id="datalist-autosuggest-v1-nq0dz"
   title="v1 demo of datalist"
+  heading={{ component: "h4" }}
 />
 
 ### Version 2
@@ -148,10 +148,10 @@ const reducer = (data, { type, payload }) => {
    component.
 
 <CodeSandbox
-  client:visible
-  heading={{ component: "h4" }}
+  client:idle
   id="datalist-autosuggest-v2-rutk0"
   title="v1 demo of datalist"
+  heading={{ component: "h4" }}
 />
 
 ### Version 3
@@ -184,10 +184,10 @@ mruTerms: addMruTerm(mruTerms, payload);
 ```
 
 <CodeSandbox
-  client:visible
-  heading={{ component: "h4" }}
+  client:idle
   id="datalist-autosuggest-v3-hc8hr"
   title="v1 demo of datalist"
+  heading={{ component: "h4" }}
 />
 
 ### Version 4
@@ -295,10 +295,10 @@ Lastly, some minor adjustments in the JSX and we're done:
    from `sortedMruTerms`.
 
 <CodeSandbox
-  client:visible
-  heading={{ component: "h4" }}
+  client:idle
   id="datalist-autosuggest-v4-6ux86"
   title="v1 demo of datalist"
+  heading={{ component: "h4" }}
 />
 
 As you can see, by abstracting the logic out from the component, we can easily
@@ -335,7 +335,7 @@ consistent as possible, but the right thing to do is to allow people to enter
 whatever they want. Here's a possible implementation that fulfills both
 requirements:
 
-<Pronoun client:visible />
+<Pronoun client:idle />
 
 ## Takeaways
 
