@@ -52,12 +52,13 @@ function useMermaid(
 function initializeMermaid(colorScheme: ColorScheme) {
   mermaid.initialize({
     startOnLoad: true,
-    theme: colorScheme === "dark" ? "dark" : "default",
-    sequence: {
-      width: 240,
-      diagramMarginX: 0,
-      diagramMarginY: 0,
-    },
+    theme:
+      colorScheme === "dark" ||
+      (colorScheme === "system" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ? "dark"
+        : "default",
+    sequence: { diagramMarginX: 0, diagramMarginY: 0 },
   });
 }
 
