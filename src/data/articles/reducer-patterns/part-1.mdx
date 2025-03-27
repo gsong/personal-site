@@ -15,31 +15,7 @@ summary: >
 import { CodeSandbox } from "@/components/CodeSandbox";
 import { Mermaid } from "@/components/Mermaid";
 
-export const stateChart = `
-sequenceDiagram
-  participant setState
-  participant state
-
-setState -->> state: replace with new state
-`
-
-export const reducerChart = `
-sequenceDiagram
-  autonumber
-
-participant dispatch
-participant state
-participant reducer
-
-par
-dispatch ->> reducer: action
-state ->> reducer: current state
-end
-
-reducer ->> reducer: compute new state
-
-reducer -->> state: replace with new state
-`
+import { useStateDiagram, useReducerDiagram } from "./diagrams";
 
 I see a lot of people, especially those new to React hooks, shy away from
 [`useReducer`][usereducer] in favor of multiple `useState`s. I think some of it
@@ -54,12 +30,20 @@ common with `useState` than Redux.
 The `useState` API has two parts: the state and the state setter. When you want
 to update the state, you replace it using the state setter.
 
-<Mermaid client:only="react" chart={stateChart} />
+<Mermaid
+  client:only="react"
+  diagram={useStateDiagram}
+  caption="Sequence diagrm of how `useState` works"
+/>
 
 The `useReducer` API has three parts: the state, an action dispatcher, and a
 reducer to produce the new state.
 
-<Mermaid client:only="react" chart={reducerChart} />
+<Mermaid
+  client:only="react"
+  diagram={useReducerDiagram}
+  caption="Sequence diagrm of how `useReducer` works"
+/>
 
 When you want to update the state:
 

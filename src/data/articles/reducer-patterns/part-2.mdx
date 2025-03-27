@@ -15,23 +15,7 @@ summary: >
 import { CodeSandbox } from "@/components/CodeSandbox";
 import { Mermaid } from "@/components/Mermaid";
 
-export const dispatchChart = `
-sequenceDiagram
-  autonumber
-
-participant dispatch
-participant state
-participant reducer
-
-par
-dispatch ->> reducer: action
-state ->> reducer: current state
-end
-
-reducer ->> reducer: compute new state
-
-reducer -->> state: replace with new state
-`
+import { useReducerDiagram } from "./diagrams";
 
 - [Part 1: Introduction to `useReducer` and basic reducer patterns][part-1]
 
@@ -49,7 +33,11 @@ exclude: ['Table of Contents', 'Use Case', 'Solution', 'Intermission']
 
 ## Reducer Using `action`
 
-<Mermaid client:only="react" chart={dispatchChart} />
+<Mermaid
+  client:only="react"
+  diagram={useReducerDiagram}
+  caption="Sequence diagrm of how `useReducer` works"
+/>
 
 Remember that `(currentState, action) => newState` is the complete reducer
 signature. In patterns we've explored so far, we haven't used the `action`

@@ -6,34 +6,45 @@ import mermaid from "mermaid";
 import { colorScheme } from "@/store";
 
 interface Props {
-  chart: string;
+  diagram: string;
+  caption?: string;
 }
 
-/**
- * Component that renders a Mermaid diagram
- * @param {string} chart - The Mermaid diagram definition
- */
-export const Mermaid = ({ chart }: Props) => {
+export const Mermaid = ({ diagram, caption }: Props) => {
   const $colorScheme = useStore(colorScheme);
-  const svg = useMermaid(chart, $colorScheme);
+  const diagramId = useRef(`diagram-${getPreciseTime()}`).current;
+  const svg = useMermaid(diagram, $colorScheme, diagramId);
 
   return (
-    <div
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: We know what we're doing
-      dangerouslySetInnerHTML={{ __html: svg }}
-      className="flex justify-center"
-    />
+    <figure
+      aria-labelledby={caption ? `fig-caption-${diagramId}` : undefined}
+      className="flex flex-col items-center"
+    >
+      <div
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: We know what we're doing
+        dangerouslySetInnerHTML={{ __html: svg }}
+        className="flex w-full justify-center"
+      />
+      {caption && (
+        <figcaption id={`fig-caption-${diagramId}`} className="text-sm">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
   );
 };
 
-function useMermaid(chart: string, colorScheme: ColorScheme) {
+function useMermaid(
+  diagram: string,
+  colorScheme: ColorScheme,
+  diagramId: string,
+) {
   const [svg, setSvg] = useState<string>("");
-  const chartId = useRef(`chart-${getPreciseTime()}`);
 
   useEffect(() => {
     initializeMermaid(colorScheme);
-    renderMermaidChart(chartId.current, chart, setSvg);
-  }, [colorScheme, chart]);
+    renderMermaidDiagram(diagramId, diagram, setSvg);
+  }, [colorScheme, diagram, diagramId]);
 
   return svg;
 }
@@ -42,19 +53,24 @@ function initializeMermaid(colorScheme: ColorScheme) {
   mermaid.initialize({
     startOnLoad: true,
     theme: colorScheme === "dark" ? "dark" : "default",
+    sequence: {
+      width: 240,
+      diagramMarginX: 0,
+      diagramMarginY: 0,
+    },
   });
 }
 
-async function renderMermaidChart(
-  chartId: string,
-  chartDefinition: string,
+async function renderMermaidDiagram(
+  diagramId: string,
+  diagramDefinition: string,
   setSvg: (svg: string) => void,
 ) {
   try {
-    const { svg } = await mermaid.render(chartId, chartDefinition);
+    const { svg } = await mermaid.render(diagramId, diagramDefinition);
     setSvg(svg);
   } catch (error) {
-    console.error("Error rendering Mermaid chart:", error);
+    console.error("Error rendering Mermaid diagram:", error);
     setSvg(`<div class="text-red-500">Error rendering diagram</div>`);
   }
 }
