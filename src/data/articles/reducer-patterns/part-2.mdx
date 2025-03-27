@@ -1,0 +1,300 @@
+---
+title: React.useReducer Reducer Patterns, Part 2
+published: 2020-07-25T18:53:56-07:00
+updated: 2021-04-01T21:34:12-07:00
+description: >
+  Discover advanced useReducer patterns that unlock new ways to manage state in
+  React applications.
+summary: >
+  In this follow-up to Part 1, I explore advanced useReducer patterns,
+  demonstrating how to leverage the action parameter effectively. From simple
+  state updates to dispatching functions, these patterns showcase the
+  flexibility and power of reducers in React.
+---
+
+import { CodeSandbox } from "@/components/CodeSandbox";
+import { Mermaid } from "@/components/Mermaid";
+
+export const dispatchChart = `
+sequenceDiagram
+  autonumber
+
+participant dispatch
+participant state
+participant reducer
+
+par
+dispatch ->> reducer: action
+state ->> reducer: current state
+end
+
+reducer ->> reducer: compute new state
+
+reducer -->> state: replace with new state
+`
+
+- [Part 1: Introduction to `useReducer` and basic reducer patterns][part-1]
+
+[In part 1][part-1], we looked at reducer patterns which didn't rely on any
+params, or just the current state to calculate the next state. We also learned
+that <mark>the primary job of a reducer is to produce a new state</mark>.
+
+Let's continue to explore other reducer patterns.
+
+## Table of Contents
+
+```toc
+exclude: ['Table of Contents', 'Use Case', 'Solution', 'Intermission']
+```
+
+## Reducer Using `action`
+
+<Mermaid client:only="react" chart={dispatchChart} />
+
+Remember that `(currentState, action) => newState` is the complete reducer
+signature. In patterns we've explored so far, we haven't used the `action`
+parameter. We know the hook automatically supplies the current state to the
+reducer, but how does a reducer receive its `action` parameter? Via the
+`dispatch` function we get when we create the hook:
+`[state, dispatch] = useReducer(reducer)`. The `dispatch` function takes a
+single optional param: `dispatch(action)`.
+
+### Use Both `currentState` and `action` Params
+
+Let's look at an example where we use both params with the `reducer` function.
+
+```js {1-2,6,11}
+const reducer = (count, valueToAdd) => count + valueToAdd;
+const [count, addToCount] = React.useReducer(reducer, 0);
+
+return (
+  <main>
+    <div>Count: {count}</div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        const valueToAdd = Number(e.currentTarget.numberToAdd.value);
+        addToCount(valueToAdd);
+      }}
+    >
+      <label>
+        Add to count:{" "}
+        <input
+          name="numberToAdd"
+          type="number"
+          defaultValue={1}
+          style={{ width: "4em" }}
+        />
+      </label>
+      <button>Add</button>
+    </form>
+  </main>
+);
+```
+
+What's happening? When we submit the form, we dispatch (`addToCount`) an action
+(`<input name="numberToAdd">`'s value). The reducer takes the current state
+(`count`) and the action (`valueToAdd`) to produce a new state
+(`count + valueToAdd`).
+
+Many examples you've seen of actions take the shape of `{ type, payload }`.
+While that's the convention, <mark>an action can be anything you like</mark>
+(including `undefined`). In this example, an action is simply a number.
+
+<CodeSandbox
+  client:idle
+  id="reducer-pattern-021-x732b"
+  title="reducer with state and action params"
+  heading={{ component: "h4" }}
+/>
+
+### Use `action` Param Only
+
+Just like how we can choose to only use the `currentState` param in a reducer,
+we can choose to only use the `action` param.
+
+```js {1-2,11}
+const reducer = (_, newCount) => newCount;
+const [count, setCount] = React.useReducer(reducer, 0);
+
+return (
+  <main>
+    <div>Count: {count}</div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        const valueToAdd = Number(e.currentTarget.numberToAdd.value);
+        setCount(count + valueToAdd);
+      }}
+    >
+      ...
+    </form>
+  </main>
+);
+```
+
+By switching up a few lines, our `reducer` now only relies on the action
+(`newCount`) to calculate its new state.
+
+🤔 Wait a minute, that looks a lot like `React.useState`.
+
+<CodeSandbox
+  client:idle
+  id="reducer-pattern-02-ohxdv"
+  title="reducer with action param only"
+  heading={{ component: "h4" }}
+/>
+
+## Implement a Simple `useState`
+
+Replace
+
+```js
+const reducer = (_, newCount) => newCount;
+const [count, setCount] = React.useReducer(reducer, 0);
+```
+
+with
+
+```js
+const reducer = (_, newState) => newState;
+const useState = (initialState) => React.useReducer(reducer, initialState);
+const [count, setCount] = useState(0);
+```
+
+We have ourselves a simple `useState`! You can see that `React.useState` is
+syntactic sugar for `React.useReducer`, simplifying the common use case of
+updating a single state value. A complete re-implementation of `useState` is a
+few more lines of code. [See Kent C. Dodd's "How to implement useState with
+useReducer"][implement-usestate] if you're interested in an in-depth
+explanation.
+
+<CodeSandbox
+  client:idle
+  id="reducer-pattern-03-1keqr"
+  title="useState implemented using useReducer"
+/>
+
+## Implement a State Updater
+
+### Use Case
+
+We have a user profile form that allows them to change each entry value in the
+state object.
+
+### Solution
+
+One elegant solution is to use the [object spread syntax][spread] to create the
+next state.
+
+```js {1,8,12,14,19}
+const reducer = (info, updates) => ({ ...info, ...updates });
+const initialValue = {
+  name: "Pat Doe",
+  twitter: "@pdough",
+  email: "pat@pdough.me",
+  website: "https://pdough.me",
+};
+const [info, update] = React.useReducer(reducer, initialValue);
+
+return (
+  <main>
+    <pre>{JSON.stringify(info, null, 2)}</pre>
+    <form>
+      {Object.entries(info).map(([key, value]) => (
+        <label key={key} style={{ display: "block" }}>
+          {key}:{" "}
+          <input
+            value={value}
+            onChange={(e) => update({ [key]: e.currentTarget.value })}
+          />
+        </label>
+      ))}
+    </form>
+  </main>
+);
+```
+
+<CodeSandbox
+  client:idle
+  id="reducer-pattern-035-lysww"
+  title="simple state updater"
+  heading={{ component: "h4" }}
+/>
+
+## Dispatch Functions
+
+Wait, say what? 🤔
+
+```js {1-4,8,21,27}
+const reducer = (count, action) => action(count);
+const [count, dispatch] = React.useReducer(reducer, 0);
+const add = (value) => dispatch((count) => count + value);
+const subtract = (value) => dispatch((count) => count - value);
+
+return (
+  <main>
+    <div>Count: {count}</div>
+    <form>
+      <label>
+        Change count by:{" "}
+        <input
+          name="modifier"
+          type="number"
+          defaultValue={1}
+          style={{ width: "4em" }}
+        />
+      </label>
+      <button
+        type="button"
+        onClick={(e) => add(Number(e.currentTarget.form.modifier.value))}
+      >
+        Add
+      </button>
+      <button
+        type="button"
+        onClick={(e) => subtract(Number(e.currentTarget.form.modifier.value))}
+      >
+        Subtract
+      </button>
+    </form>
+  </main>
+);
+```
+
+Yup, as stated earlier, <mark>an action can be anything you like</mark>. In this
+example, we're dispatching callback functions! 🤯
+
+<CodeSandbox
+  client:idle
+  id="reducer-pattern-022-1jpr0"
+  title="dispatch functions"
+/>
+
+## Takeaways
+
+- Dispatched actions can take any shape you want: `undefined`, a value, an
+  object, or even a function.
+- The `action` parameter is what's commonly shared between the `dispatch()` and
+  `reducer()` functions—it's their private, internal contract.
+- React.useState is syntactic sugar for one specific use case of
+  React.useReducer.
+
+## Intermission
+
+You can implement a reducer in any way you like, as long as it fulfills the
+contract of `([currentState], [action]) => newState`. You have complete freedom
+in deciding what an action looks like, and how you want to calculate the new
+state.
+
+We've explored different ways of writing the reducer function, and we haven't
+even come across the familiar `switch` statement yet. Don't worry, we'll get to
+that in [part 3][part-3].
+
+- [Part 1: Introduction to `useReducer` and basic reducer patterns][part-1]
+- [Part 3: Reducers with switch statements][part-3]
+
+[implement-usestate]: https://kentcdodds.com/blog/how-to-implement-usestate-with-usereducer
+[part-1]: /articles/reducer-patterns/part-1/
+[part-3]: /articles/reducer-patterns/part-3/
+[spread]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
