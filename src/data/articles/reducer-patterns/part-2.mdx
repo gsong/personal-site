@@ -1,11 +1,11 @@
 ---
 title: React.useReducer Reducer Patterns, Part 2
 published: 2020-07-25T18:53:56-07:00
-updated: 2021-04-01T21:34:12-07:00
-description: >
+updated: 2025-03-27T07:25:18-07:00
+description: >-
   Discover advanced useReducer patterns that unlock new ways to manage state in
   React applications.
-summary: >
+summary: >-
   In this follow-up to Part 1, I explore advanced useReducer patterns,
   demonstrating how to leverage the action parameter effectively. From simple
   state updates to dispatching functions, these patterns showcase the
@@ -19,37 +19,35 @@ import { useReducerDiagram } from "./diagrams";
 
 - [Part 1: Introduction to `useReducer` and basic reducer patterns][part-1]
 
-[In part 1][part-1], we looked at reducer patterns which didn't rely on any
-params, or just the current state to calculate the next state. We also learned
-that <mark>the primary job of a reducer is to produce a new state</mark>.
+[In part 1][part-1], we looked at reducer patterns that didn't use any
+parameters or only used the current state to calculate the next state. We also
+learned that <mark>the primary job of a reducer is to produce a new
+state</mark>.
 
-Let's continue to explore other reducer patterns.
+Let's continue exploring other reducer patterns.
 
 ## Table of Contents
-
-```toc
-exclude: ['Table of Contents', 'Use Case', 'Solution', 'Intermission']
-```
 
 ## Reducer Using `action`
 
 <Mermaid
   client:only="react"
   diagram={useReducerDiagram}
-  caption="Sequence diagrm of how `useReducer` works"
+  caption="Sequence diagram of how `useReducer` works"
 />
 
 Remember that `(currentState, action) => newState` is the complete reducer
-signature. In patterns we've explored so far, we haven't used the `action`
+signature. In the patterns we've explored so far, we haven't used the `action`
 parameter. We know the hook automatically supplies the current state to the
-reducer, but how does a reducer receive its `action` parameter? Via the
-`dispatch` function we get when we create the hook:
-`[state, dispatch] = useReducer(reducer)`. The `dispatch` function takes a
-single optional param: `dispatch(action)`.
+reducer, but how does a reducer receive its `action` parameter? It receives the
+`action` parameter via the `dispatch` function returned by the hook: `[state,
+dispatch] = useReducer(reducer)`. The `dispatch` function takes a single
+optional parameter: `dispatch(action)`.
 
-### Use Both `currentState` and `action` Params
+### Use Both `currentState` and `action` Parameters
 
-Let's look at an example where we use both params with the `reducer` function.
+Let's look at an example where we use both parameters with the `reducer`
+function.
 
 ```js {1-2,6,11}
 const reducer = (count, valueToAdd) => count + valueToAdd;
@@ -81,12 +79,12 @@ return (
 ```
 
 What's happening? When we submit the form, we dispatch (`addToCount`) an action
-(`<input name="numberToAdd">`'s value). The reducer takes the current state
-(`count`) and the action (`valueToAdd`) to produce a new state
-(`count + valueToAdd`).
+(the value from `<input name="numberToAdd">`). The reducer takes the current
+state (`count`) and the action (`valueToAdd`) to produce a new state (`count +
+valueToAdd`).
 
-Many examples you've seen of actions take the shape of `{ type, payload }`.
-While that's the convention, <mark>an action can be anything you like</mark>
+Many examples of actions you've seen use the shape `{ type, payload }`. While
+this is a common convention, <mark>an action can be anything you like</mark>
 (including `undefined`). In this example, an action is simply a number.
 
 <CodeSandbox
@@ -99,7 +97,7 @@ While that's the convention, <mark>an action can be anything you like</mark>
 ### Use `action` Param Only
 
 Just like how we can choose to only use the `currentState` param in a reducer,
-we can choose to only use the `action` param.
+we can choose to only use the `action` parameter.
 
 ```js {1-2,11}
 const reducer = (_, newCount) => newCount;
@@ -167,8 +165,8 @@ explanation.
 
 ### Use Case
 
-We have a user profile form that allows them to change each entry value in the
-state object.
+We have a user profile form that allows users to change each value in the state
+object.
 
 ### Solution
 
@@ -210,7 +208,7 @@ return (
   heading={{ component: "h4" }}
 />
 
-## Dispatch Functions
+## Dispatch Functions as Actions
 
 Wait, say what? 🤔
 
@@ -263,8 +261,8 @@ example, we're dispatching callback functions! 🤯
 
 - Dispatched actions can take any shape you want: `undefined`, a value, an
   object, or even a function.
-- The `action` parameter is what's commonly shared between the `dispatch()` and
-  `reducer()` functions—it's their private, internal contract.
+- The `action` parameter is the value shared between the `dispatch()` and
+  `reducer()` functions, acting as their private contract.
 - React.useState is syntactic sugar for one specific use case of
   React.useReducer.
 

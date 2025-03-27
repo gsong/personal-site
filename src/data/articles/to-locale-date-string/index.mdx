@@ -1,10 +1,11 @@
 ---
 title: Formatting Dates in JavaScript
 published: 2020-07-10T08:23:12-07:00
-description: >
+updated: 2025-03-27T07:25:28-07:00
+description: >-
   Format dates in JavaScript efficiently with `toLocaleDateString()`—no extra
   libraries required!
-summary: >
+summary: >-
   Learn how to format dates in JavaScript using the built-in `Date` object and
   `toLocaleDateString()` method. This method offers a lightweight alternative
   to libraries like Moment.js or date-fns for basic date formatting needs.
@@ -16,18 +17,17 @@ import { LocaleDate } from "./LocaleDate";
 
 export const isoDate = new Date().toISOString();
 
-Do you automatically reach for [Moment.js][] when you need to format dates? Or
-perhaps you prefer [date-fns][]? But if you have basic formatting needs, don't
-discount the built-in JavaScript tools.
+Do you automatically reach for [Moment.js][] or [date-fns][] when formatting
+dates? For basic needs, consider the built-in JavaScript tools instead.
 
 ## Use Case
 
 I'm displaying a date with each article on this site. The source of the date is
 an [ISO date string][iso-8601], which looks like <code>{isoDate}</code>. This
-is a typical format you'll receive as part of an API response, for example.
+is a common format you'll receive from APIs.
 
-While the ISO format is explicit and great for cross-boundary data exchange,
-it's not display-friendly. Let's show a localized date string instead.
+While ISO format is excellent for data exchange, it's not user-friendly for
+display. Let's localize it instead.
 
 <LocaleDate client:idle />
 
@@ -46,7 +46,7 @@ it's not display-friendly. Let's show a localized date string instead.
    const locale = typeof window === "undefined" ? "en" : navigator.language;
    ```
 
-   If we're not in a browser environment (`window === "undefined"`), default to English.
+   If we're not in a browser environment (like during SSR), default to English.
 
 1. [Format the date][tolocaledatestring]
 

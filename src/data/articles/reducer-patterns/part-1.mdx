@@ -1,11 +1,11 @@
 ---
 title: React.useReducer Reducer Patterns, Part 1
 published: 2020-07-19T12:06:41-07:00
-updated: 2021-04-01T16:20:10-07:00
-description: >
+updated: 2025-03-27T07:24:28-07:00
+description: >-
   Learn practical `useReducer` patterns for writing clear and effective
   reducers, starting with no-param and current state-only approaches.
-summary: >
+summary: >-
   Discover practical patterns for writing reducers with `useReducer`. This
   guide introduces key concepts, starting with reducers that require no
   parameters or rely solely on the current state, making state management
@@ -17,11 +17,11 @@ import { Mermaid } from "@/components/Mermaid";
 
 import { useStateDiagram, useReducerDiagram } from "./diagrams";
 
-I see a lot of people, especially those new to React hooks, shy away from
-[`useReducer`][usereducer] in favor of multiple `useState`s. I think some of it
-is the simplicity of the `useState` API, and some of it is assumed complexity
-via association with [Redux][]. In practice, `useReducer` has a lot more in
-common with `useState` than Redux.
+I see many people, especially those new to React hooks, shy away from
+[`useReducer`][usereducer] in favor of multiple `useState` calls. I suspect
+this stems partly from the simplicity of the `useState` API and partly from an
+assumed complexity due to its association with [Redux][]. In practice,
+`useReducer` has much more in common with `useState` than Redux.
 
 ## Table of Contents
 
@@ -33,7 +33,7 @@ to update the state, you replace it using the state setter.
 <Mermaid
   client:only="react"
   diagram={useStateDiagram}
-  caption="Sequence diagrm of how `useState` works"
+  caption="Sequence diagram of how `useState` works"
 />
 
 The `useReducer` API has three parts: the state, an action dispatcher, and a
@@ -42,7 +42,7 @@ reducer to produce the new state.
 <Mermaid
   client:only="react"
   diagram={useReducerDiagram}
-  caption="Sequence diagrm of how `useReducer` works"
+  caption="Sequence diagram of how `useReducer` works"
 />
 
 When you want to update the state:
@@ -76,9 +76,9 @@ dispatched action.
 const [state, dispatch] = useReducer(reducer, initialState);
 ```
 
-You pass in a `reducer` function (and optionally an `initialState`) to
-instantiate a `useReducer` hook. What you get back is a **read-only** `state`
-and a `dispatch` function which you'll use to trigger the `reducer`.
+You pass in a `reducer` function (and optionally an `initialState`) to set up a
+`useReducer` hook. What you get back is a **read-only** `state` and a
+`dispatch` function which you'll use to trigger the `reducer`.
 
 This is one of the key differences when compared to `useState`—a `useReducer`
 hook computes the next state internally using a `reducer` function, while a
@@ -112,10 +112,10 @@ The names `state`, `dispatch`, and `reducer` are conceptual. In practice, you
 can name them anything you like. In this example, they are `date` (state),
 `update` (dispatch), and `reducer`.
 
-Notice that we invoke `update()` _without_ passing in any parameters. The
-dispatch function signals the hook to run the reducer function, it's up to you
-whether you need to send an action with the signal or not. In this case, the
-hook actually runs `reducer(currentState, undefined)`.
+Notice that we invoke `update()` _without_ passing any parameters. The dispatch
+function signals the hook to run the reducer function; it's up to you whether
+you need to send an action along with the signal. In this case, the hook
+actually runs `reducer(currentState, undefined)`.
 
 ### 🤔 But Wait, the Reducer Doesn't Accept Any Params
 
@@ -169,14 +169,15 @@ the current state.
 ## Takeaways
 
 - The primary job of a reducer is to produce a new state.
-- A reducer function can take zero, one, or two params:
-  `([currentState], [dispachedAction])`.
+- A reducer function can take zero, one, or two params: `([currentState],
+[dispatchedAction])`.
 - `dispatch()` signals the `useReducer` hook to invoke the reducer.
 
 ## Intermission
 
-😅 Whew, let's take a break for now. [In part 2][part-2]: we'll explore reducers
-that use actions, as well as actions in combination with the current state.
+😅 Whew, let's take a break for now. [In part 2][part-2], we'll explore
+reducers that use actions, as well as reducers that use both actions and the
+current state.
 
 - [Part 2: Reducers with actions][part-2]
 - [Part 3: Reducers with switch statements][part-3]

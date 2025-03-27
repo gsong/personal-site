@@ -1,10 +1,11 @@
 ---
 title: Remove Properties From JavaScript Objects
 published: 2020-07-09T07:53:23-07:00
-description: >
+updated: 2025-03-27T07:25:42-07:00
+description: >-
   Easily remove properties from JavaScript objects using destructuring and rest
   syntax for cleaner, immutable code.
-summary: >
+summary: >-
   Learn how to efficiently remove properties from JavaScript objects using
   object destructuring and rest syntax. This method ensures immutability while
   simplifying the removal of unwanted properties.
@@ -14,8 +15,8 @@ import { CodeSandbox } from "@/components/CodeSandbox";
 
 ## Use Case
 
-You have a JavaScript object that you got from somewhere (e.g. retrieved from
-API):
+Suppose you have a JavaScript object received from a source (e.g., retrieved
+from an API):
 
 ```js
 const restaurant = {
@@ -26,13 +27,13 @@ const restaurant = {
 };
 ```
 
-You want to remove `secretKeyLocation` before passing the object onto the next
+You want to remove `secretKeyLocation` before passing the object on to the next
 part of the workflow.
 
-## Solution: Destructure/Rest Syntax
+## Solution: Remove Property Using Destructuring + Rest Syntax
 
-The combination of [object destructuring][destructure] and [object literal
-spread/rest syntax][spread] to the rescue ⛑.
+Use a combination of [object destructuring][destructure] and [object literal
+spread/rest syntax][spread].
 
 ```js {1}
 const { secretKeyLocation, ...rest } = restaurant;
@@ -52,8 +53,8 @@ With this, you now have three variables:
   }
   ```
 
-  It's worth noting that `rest` can be whatever variable name you want, there's
-  nothing special about the name `rest`.
+  It's worth noting that `rest` can be any valid variable name; the name `rest`
+  itself has no special meaning.
 
 - `restaurant` remains untouched and retains its original value. Immutability
   FTW 🙌!
