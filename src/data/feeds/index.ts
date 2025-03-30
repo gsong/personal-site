@@ -5,14 +5,15 @@ import { Feed } from "feed";
 
 import { createUrl, mdxToHtml } from "./utils";
 
-const author = {
-  name: "George Song",
-  email: "george@gsong.dev",
-  link: "https://gsong.dev",
-};
-
 export async function generateFeed(context: APIContext) {
-  const site = context.site?.toString() || "https://gsong.dev";
+  // biome-ignore lint/style/noNonNullAssertion: we know
+  const site = context.site!.toString();
+
+  const author = {
+    name: "George Song",
+    email: "george@gsong.dev",
+    link: site,
+  };
 
   const articles = (await getCollection("articles")).sort(
     (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
@@ -24,19 +25,17 @@ export async function generateFeed(context: APIContext) {
     id: site,
     link: site,
     language: "en-us",
-    favicon: createUrl("/favicon.png", site) || `${site}/favicon.png`,
+    favicon: createUrl("/favicon.png", site) as string,
     copyright: `Copyright ${new Date().getFullYear()} George Song`,
     feedLinks: {
-      rss: createUrl("/rss.xml", site) || `${site}/rss.xml`,
-      atom: createUrl("/atom.xml", site) || `${site}/atom.xml`,
+      rss: createUrl("/rss.xml", site) as string,
+      atom: createUrl("/atom.xml", site) as string,
     },
     author,
   });
 
   for (const article of articles) {
-    const link =
-      createUrl(`/articles/${article.id}`, site) ||
-      `${site}/articles/${article.id}`;
+    const link = createUrl(`/articles/${article.id}`, site) as string;
 
     feed.addItem({
       title: article.data.title,
