@@ -17,6 +17,9 @@ importers:
       '@radix-ui/react-icons':
         specifier: ^1.3.2
         version: 1.3.2(react@19.1.0)
+      '@types/hast':
+        specifier: ^3.0.4
+        version: 3.0.4
       nanostores:
         specifier: ^0.11.4
         version: 0.11.4
@@ -54,12 +57,18 @@ importers:
       '@expressive-code/plugin-line-numbers':
         specifier: ^0.40.2
         version: 0.40.2
+      '@minify-html/node':
+        specifier: ^0.16.4
+        version: 0.16.4
       '@tailwindcss/typography':
         specifier: ^0.5.16
         version: 0.5.16(tailwindcss@4.0.17)
       '@tailwindcss/vite':
         specifier: ^4.0.17
         version: 4.0.17(vite@6.2.3(@types/node@22.13.14)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
+      '@types/mdast':
+        specifier: ^4.0.4
+        version: 4.0.4
       '@types/react':
         specifier: ^19.0.12
         version: 19.0.12
@@ -78,6 +87,9 @@ importers:
       daisyui:
         specifier: ^5.0.9
         version: 5.0.9
+      feed:
+        specifier: ^4.2.2
+        version: 4.2.2
       is-ci:
         specifier: ^4.1.0
         version: 4.1.0
@@ -105,6 +117,18 @@ importers:
       rehype-slug:
         specifier: ^6.0.0
         version: 6.0.0
+      rehype-stringify:
+        specifier: ^10.0.1
+        version: 10.0.1
+      remark-mdx:
+        specifier: ^3.1.0
+        version: 3.1.0
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remark-rehype:
+        specifier: ^11.1.1
+        version: 11.1.1
       remark-toc:
         specifier: ^9.0.0
         version: 9.0.0
@@ -117,6 +141,9 @@ importers:
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
+      unified:
+        specifier: ^11.0.5
+        version: 11.0.5
 
 packages:
 
@@ -1005,6 +1032,36 @@ packages:
 
   '@mdx-js/mdx@3.1.0':
     resolution: {integrity: sha512-/QxEhPAvGwbQmy1Px8F899L5Uc2KZ6JtXwlCgJmjSTBedwOZkByYcBG4GceIGPXRDsmfxhHazuS+hlOShRLeDw==}
+
+  '@minify-html/node-darwin-arm64@0.16.4':
+    resolution: {integrity: sha512-9H8hcywDb8zo2jEJfaIAibgsKjMqE+XF7SyqTtJ5H8lVXHxffOkawH4TQtphf9V/x7zXeb/nByAvHe1orJ/RHA==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@minify-html/node-darwin-x64@0.16.4':
+    resolution: {integrity: sha512-P0Krf5nwXbccMrC7ragKAIVOENHFoVRQi+v/8k5pmfjrNlxgXGVILacG0FbUZXsH2Z2XaIo39HxuMf70L6wQlA==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@minify-html/node-linux-arm64@0.16.4':
+    resolution: {integrity: sha512-GDRExKf7AmyAdBTdhMkMyzFhJu5VeyJTu0OnNH2ekp69JrhQTrrrt9UYqnjen+7qLIaZB/R8urDRAYNk0HZi5w==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@minify-html/node-linux-x64@0.16.4':
+    resolution: {integrity: sha512-MS/gF1gxJoeHqEGcb1xoUIRv6gVin4cGJszgHPYSikzkK8Yg0p6rVOZdDAE4AAnp/NW0DYNq7fwYgw3igmppFw==}
+    cpu: [x64]
+    os: [linux]
+
+  '@minify-html/node-win32-x64@0.16.4':
+    resolution: {integrity: sha512-SCY7hzIqG1RclU0QzU2MlGtPOujPu6dvaPYqDvhAHpkvRXtX0hnyOrrfqf7GcBdDbASxV8LDlBWpY46JO2cjAA==}
+    cpu: [x64]
+    os: [win32]
+
+  '@minify-html/node@0.16.4':
+    resolution: {integrity: sha512-ykQgl6xcQQDE1shUExeObPSNwAf00DVUt/GrxdjiqFNCVGu7DXK9nuH29sNTyKKYnJJLZAi6OEib2bDfxW3udg==}
+    engines: {node: '>= 8.6.0'}
+    hasBin: true
 
   '@nanostores/react@0.8.4':
     resolution: {integrity: sha512-EciHSzDXg7GmGODjegGG1VldPEinbAK+12/Uz5+MAdHmxf082Rl6eXqKFxAAu4pZAcr5dNTpv6wMfEe7XacjkQ==}
@@ -3165,6 +3222,10 @@ packages:
 
   fecha@4.2.3:
     resolution: {integrity: sha512-OP2IUU6HeYKJi3i0z4A19kHMQoLVs4Hc+DPqqxI2h/DPZHTm/vjsfC6P0b4jCMy14XizLBqvndQ+UilD7707Jw==}
+
+  feed@4.2.2:
+    resolution: {integrity: sha512-u5/sxGfiMfZNtJ3OvQpXcvotFpYkL0n9u9mM2vkui2nGo8b4wvDkJ8gAkYqbA8QpGyFCv3RK0Z+Iv+9veCS9bQ==}
+    engines: {node: '>=0.4.0'}
 
   fetch-blob@3.2.0:
     resolution: {integrity: sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ==}
@@ -6370,6 +6431,10 @@ packages:
     resolution: {integrity: sha512-GCPAHLvrIH13+c0SuacwvRYj2SxJXQ4kaVTT5xgL3kPrz56XxkF21IGhjSE1+W0aw7gpBWRGXLCPnPby6lSpmQ==}
     engines: {node: '>=12'}
 
+  xml-js@1.6.11:
+    resolution: {integrity: sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==}
+    hasBin: true
+
   xss@1.0.15:
     resolution: {integrity: sha512-FVdlVVC67WOIPvfOwhoMETV72f6GbW7aOabBC3WxN/oUdoEMDyLz4OgRv5/gck2ZeNqEQu+Tb0kloovXOfpYVg==}
     engines: {node: '>= 0.10.0'}
@@ -7275,6 +7340,29 @@ snapshots:
     transitivePeerDependencies:
       - acorn
       - supports-color
+
+  '@minify-html/node-darwin-arm64@0.16.4':
+    optional: true
+
+  '@minify-html/node-darwin-x64@0.16.4':
+    optional: true
+
+  '@minify-html/node-linux-arm64@0.16.4':
+    optional: true
+
+  '@minify-html/node-linux-x64@0.16.4':
+    optional: true
+
+  '@minify-html/node-win32-x64@0.16.4':
+    optional: true
+
+  '@minify-html/node@0.16.4':
+    optionalDependencies:
+      '@minify-html/node-darwin-arm64': 0.16.4
+      '@minify-html/node-darwin-x64': 0.16.4
+      '@minify-html/node-linux-arm64': 0.16.4
+      '@minify-html/node-linux-x64': 0.16.4
+      '@minify-html/node-win32-x64': 0.16.4
 
   '@nanostores/react@0.8.4(nanostores@0.11.4)(react@19.1.0)':
     dependencies:
@@ -9796,6 +9884,10 @@ snapshots:
       picomatch: 4.0.2
 
   fecha@4.2.3: {}
+
+  feed@4.2.2:
+    dependencies:
+      xml-js: 1.6.11
 
   fetch-blob@3.2.0:
     dependencies:
@@ -13660,6 +13752,10 @@ snapshots:
   ws@8.18.1: {}
 
   xdg-basedir@5.1.0: {}
+
+  xml-js@1.6.11:
+    dependencies:
+      sax: 1.4.1
 
   xss@1.0.15:
     dependencies:
