@@ -7,6 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 import expressiveCode from "astro-expressive-code";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
+import remarkMarkers from "remark-flexible-markers";
 import remarkToc from "remark-toc";
 
 export default defineConfig({
@@ -22,7 +23,7 @@ export default defineConfig({
   ],
 
   markdown: {
-    remarkPlugins: [dynamicToc],
+    remarkPlugins: [dynamicToc, remarkMarkers],
     rehypePlugins: [
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: "append" }],

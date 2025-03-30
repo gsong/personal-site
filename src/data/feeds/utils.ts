@@ -6,6 +6,7 @@ import { Buffer } from "node:buffer";
 
 import minifyHtml from "@minify-html/node";
 import rehypeStringify from "rehype-stringify";
+import remarkMarkers from "remark-flexible-markers";
 import remarkMdx from "remark-mdx";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
@@ -15,6 +16,7 @@ export async function mdxToHtml(mdxContent: string, site: URL | string) {
   const result = await unified()
     .use(remarkParse)
     .use(remarkMdx)
+    .use(remarkMarkers, { markerClassName: () => [] })
     .use(remarkRemoveToc)
     .use(remarkRemoveImports)
     .use(remarkRehype)

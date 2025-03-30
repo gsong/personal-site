@@ -21,8 +21,7 @@ import { useReducerDiagram } from "./diagrams";
 
 [In part 1][part-1], we looked at reducer patterns that didn't use any
 parameters or only used the current state to calculate the next state. We also
-learned that <mark>the primary job of a reducer is to produce a new
-state</mark>.
+learned that ==the primary job of a reducer is to produce a new state==.
 
 Let's continue exploring other reducer patterns.
 
@@ -84,8 +83,8 @@ state (`count`) and the action (`valueToAdd`) to produce a new state (`count +
 valueToAdd`).
 
 Many examples of actions you've seen use the shape `{ type, payload }`. While
-this is a common convention, <mark>an action can be anything you like</mark>
-(including `undefined`). In this example, an action is simply a number.
+this is a common convention, ==an action can be anything you like== (including
+`undefined`). In this example, an action is simply a number.
 
 <CodeSandbox
   client:idle
@@ -248,7 +247,7 @@ return (
 );
 ```
 
-Yup, as stated earlier, <mark>an action can be anything you like</mark>. In this
+Yup, as stated earlier, ==an action can be anything you like==. In this
 example, we're dispatching callback functions! 🤯
 
 <CodeSandbox
