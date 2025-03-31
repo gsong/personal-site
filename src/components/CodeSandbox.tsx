@@ -140,7 +140,7 @@ const SandboxIframe = ({
       allow={IFRAME_ALLOW}
       sandbox={IFRAME_SANDBOX}
       className={clsx(
-        "mx-[calc((100%-100vw)/2)] h-[clamp(150px,60vh,800px)] w-[100vw]",
+        "mx-[calc((100%-95vw)/2)] h-[clamp(150px,60vh,800px)] w-[95vw] rounded-md",
         className,
       )}
     />
