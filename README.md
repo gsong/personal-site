@@ -1,48 +1,107 @@
-# Astro Starter Kit: Basics
+# George Song's Personal Website (gsong.dev)
 
-```sh
-pnpm create astro@latest -- --template basics
-```
+This repository contains the source code for George Song's personal website and blog, available at [gsong.dev](https://gsong.dev). It's built with modern web technologies, focusing on performance, content delivery, and developer experience.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## ✨ Core Technologies & Tools
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+This project leverages a variety of tools and frameworks to achieve its goals:
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+**Framework & Rendering:**
 
-## 🚀 Project Structure
+- 🚀 **[Astro](https://astro.build/):** The core web framework, used for building fast, content-focused websites with an island architecture for optimal performance.
+- ⚛️ **[React](https://react.dev/):** Used for interactive UI components (islands) via Astro's React integration (`@astrojs/react`).
+- 📝 **[MDX](https://mdxjs.com/):** Used for writing content (articles), allowing the use of JSX components directly within Markdown (`@astrojs/mdx`).
 
-Inside of your Astro project, you'll see the following folders and files:
+**Styling:**
+
+- 🎨 **[Tailwind CSS](https://tailwindcss.com/):** A utility-first CSS framework for rapid UI development.
+- 🌼 **[DaisyUI](https://daisyui.com/):** A Tailwind CSS component library providing pre-built UI elements.
+- 🌗 **Color Scheme Toggle:** Custom implementation using Nano Stores and `localStorage` for light/dark/system theme switching.
+
+**Content & Data:**
+
+- 📄 **[Astro Content Collections](https://docs.astro.build/en/guides/content-collections/):** Manages blog articles, providing type safety and organization for MDX files.
+- 📊 **[Mermaid](https://mermaid.js.org/):** Used via a React component to render diagrams from text definitions within articles.
+- 📰 **[Feed](https://github.com/jpmonette/feed):** Library used to generate RSS and Atom feeds for blog articles.
+- ✨ **[Expressive Code](https://expressive-code.com/):** Astro integration for advanced code highlighting in articles, including features like line numbers and collapsible sections.
+- 🔗 **Remark/Rehype Plugins:** Used within the Astro/MDX pipeline for features like table of contents (`remark-toc`), slug generation (`rehype-slug`), and autolinking headings (`rehype-autolink-headings`).
+
+**Development & Tooling:**
+
+- 📦 **[pnpm](https://pnpm.io/):** Fast, disk space-efficient package manager.
+- 🔧 **[Mise](https://mise.jdx.dev/):** Developer environment manager used to handle Node.js and pnpm versions consistently (`mise.toml`).
+- ✅ **[TypeScript](https://www.typescriptlang.org/):** Provides static typing for improved code quality and developer experience.
+- 💅 **[Biome](https://biomejs.dev/):** Fast formatter and linter used for code consistency (`biome.jsonc`).
+- ✨ **[Prettier](https://prettier.io/):** Additional code formatter, configured with plugins for Astro and Tailwind CSS (`.prettierrc.mjs`).
+- 🏪 **[Nano Stores](https://github.com/nanostores/nanostores):** Tiny state manager used for global state like the color scheme.
+
+**Deployment:**
+
+- ☁️ **[Netlify](https://www.netlify.com/):** Hosting platform used for building and deploying the static site (`netlify.toml`, `netlify-cli`).
+
+## 📂 Project Structure
 
 ```text
 /
-├── public/
-│   └── favicon.svg
+├── public/              # Static assets (favicon, images)
 ├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── assets/          # Site assets (images) processed by Astro
+│   ├── components/      # Reusable UI components (React .tsx, Astro .astro)
+│   ├── data/
+│   │   ├── articles/    # Blog post content (MDX)
+│   │   └── feeds/       # Logic for generating RSS/Atom feeds
+│   ├── layouts/         # Base page layouts (.astro)
+│   ├── pages/           # Site pages and API routes (.astro, .ts)
+│   ├── styles/          # Global CSS, Tailwind config
+│   ├── types/           # Global TypeScript types
+│   ├── content.config.ts # Astro Content Collections configuration
+│   └── store.ts         # Nano Stores state management
+├── astro.config.mjs     # Astro configuration file
+├── biome.jsonc          # Biome (linter/formatter) configuration
+├── ec.config.mjs        # Expressive Code configuration
+├── mise.toml            # Mise environment configuration
+├── netlify.toml         # Netlify configuration
+├── package.json         # Project dependencies and scripts
+├── tsconfig.json        # TypeScript configuration
+└── README.md            # This file
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 🚀 Getting Started
 
-## 🧞 Commands
+**Prerequisites:**
 
-All commands are run from the root of the project, from a terminal:
+- [Mise](https://mise.jdx.dev/): Install according to the official instructions. Mise will manage Node.js and pnpm versions.
 
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `pnpm install`         | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+**Installation:**
 
-## 👀 Want to learn more?
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/gsong/personal-site.git
+    cd personal-site
+    ```
+2.  **Install tools via Mise:**
+    ```bash
+    mise install
+    ```
+    _(This will install the correct Node.js and pnpm versions specified in `mise.toml`)_
+3.  **Install project dependencies:**
+    ```bash
+    pnpm install
+    ```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## ⚙️ Available Scripts
+
+The following scripts are available via `pnpm run <script>`:
+
+- `dev`: Starts the local development server (usually at `http://localhost:4321`).
+- `build`: Builds the static site for production to the `dist/` directory.
+- `preview`: Starts a local server to preview the production build.
+- `deploy`: Builds the site and deploys it to Netlify production (requires Netlify CLI login).
+- `fix`: Runs Astro type checking, Biome linting/formatting fixes, and Prettier formatting.
+- `postinstall`: (Internal) Updates `packageManager` field in `package.json` using Mise after installation (runs automatically unless in CI).
+
+## ☁️ Deployment
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ae709d72-969b-4493-bb5f-624130304c6a/deploy-status)](https://app.netlify.com/sites/zukefresh/deploys)
+
+The site is automatically built and deployed to [Netlify](https://www.netlify.com/) upon pushes to the main branch. Manual production deploys can be triggered using `pnpm run deploy`.
