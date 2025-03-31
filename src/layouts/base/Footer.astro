@@ -1,15 +1,12 @@
 ---
-import { EnvelopeOpenIcon } from "@heroicons/react/24/solid";
+import { EnvelopeOpenIcon, RssIcon } from "@heroicons/react/24/solid";
 import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="prose-default flex-center mt-12 mb-6 w-full justify-between">
-  <a aria-label="Return to homepage" href="/"
-    >George Song © <span id="current-year">{currentYear}</span></a
-  >
-  <div class="flex gap-6">
+<footer>
+  <div class="flex gap-8">
     <a aria-label="Email George" href="mailto:george@gsong.dev">
       <EnvelopeOpenIcon />
     </a>
@@ -21,7 +18,15 @@ const currentYear = new Date().getFullYear();
     <a aria-label="George's LinkedIn" href="https://www.linkedin.com/in/gsong/">
       <LinkedInLogoIcon />
     </a>
+
+    <a aria-label="Articles Feed" href={new URL("/atom.xml", Astro.site!.href)}>
+      <RssIcon />
+    </a>
   </div>
+
+  <a aria-label="Return to homepage" href="/"
+    >George Song © <span id="current-year">{currentYear}</span></a
+  >
 </footer>
 
 <script>
@@ -33,7 +38,11 @@ const currentYear = new Date().getFullYear();
 <style>
   @reference "@/styles/global.css";
 
+  footer {
+    @apply xs:!flex-row-reverse prose-default flex-center mt-12 mb-6 w-full flex-col justify-between gap-[1.25em];
+  }
+
   svg {
-    @apply size-6 transform transition-transform duration-300 hover:scale-125;
+    @apply xs:size-6 size-8 transform transition-transform duration-300 hover:scale-125;
   }
 </style>
