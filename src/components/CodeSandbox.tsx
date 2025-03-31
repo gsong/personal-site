@@ -3,10 +3,10 @@ import type { JSX } from "react";
 import { useState } from "react";
 
 import {
+  ArrowTopRightOnSquareIcon,
   ExclamationTriangleIcon,
-  ExternalLinkIcon,
-  KeyboardIcon,
-} from "@radix-ui/react-icons";
+} from "@heroicons/react/24/outline";
+import { KeyboardIcon } from "@radix-ui/react-icons";
 import { clsx } from "clsx";
 
 interface CodeSandboxProps extends React.ComponentPropsWithoutRef<"iframe"> {
@@ -89,7 +89,7 @@ const useCodeSandbox = (id: string, file?: string) => {
 const IphoneFallback = ({ url }: { url: string }) => (
   <>
     <a href={url} target="_blank" rel="noreferrer" className="flex-center">
-      <ExternalLinkIcon className="size-[1.15em]" />
+      <ArrowTopRightOnSquareIcon className="size-[1.15em]" />
       Open Sandbox
     </a>
     <p className="flex-center mt-1 text-sm text-yellow-600">
