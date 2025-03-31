@@ -1,25 +1,32 @@
 import type { APIContext } from "astro";
+import type { Author, FeedOptions } from "feed";
 
 import { getCollection } from "astro:content";
 import { Feed } from "feed";
 
 import { createUrl, mdxToHtml } from "./utils";
 
-export async function generateFeed(context: APIContext) {
+interface SiteAuthor extends Author {
+  link: string;
+}
+
+export async function generateFeed(context: APIContext): Promise<Feed> {
   // biome-ignore lint/style/noNonNullAssertion: we know
   const site = context.site!.toString();
-
-  const author = {
+  const author: SiteAuthor = {
     name: "George Song",
     email: "george@gsong.dev",
     link: site,
   };
+  const feed = createFeedInstance(site, author);
 
-  const articles = (await getCollection("articles")).sort(
-    (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
-  );
+  await addArticlesToFeed(feed, site, author);
 
-  const feed = new Feed({
+  return feed;
+}
+
+function createFeedInstance(site: string, author: SiteAuthor): Feed {
+  const feedOptions: FeedOptions = {
     title: "George's Articles",
     description: "Various articles by George Song",
     id: site,
@@ -32,7 +39,19 @@ export async function generateFeed(context: APIContext) {
       atom: createUrl("/atom.xml", site) as string,
     },
     author,
-  });
+  };
+
+  return new Feed(feedOptions);
+}
+
+async function addArticlesToFeed(
+  feed: Feed,
+  site: string,
+  author: SiteAuthor,
+): Promise<void> {
+  const articles = (await getCollection("articles")).sort(
+    (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+  );
 
   for (const article of articles) {
     const link = createUrl(`/articles/${article.id}`, site) as string;
@@ -48,6 +67,4 @@ export async function generateFeed(context: APIContext) {
       content: await mdxToHtml(article.body || "", site),
     });
   }
-
-  return feed;
 }

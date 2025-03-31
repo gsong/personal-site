@@ -12,7 +12,12 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
-export async function mdxToHtml(mdxContent: string, site: URL | string) {
+type UrlLike = URL | string;
+
+export async function mdxToHtml(
+  mdxContent: string,
+  site: UrlLike,
+): Promise<string> {
   const result = await unified()
     .use(remarkParse)
     .use(remarkMdx)
@@ -29,6 +34,17 @@ export async function mdxToHtml(mdxContent: string, site: URL | string) {
     .toString();
 }
 
+export function createUrl(path: string, baseUrl: UrlLike): string | null {
+  try {
+    const fullUrl = new URL(path, baseUrl);
+    return fullUrl.href;
+  } catch (error) {
+    console.error("Invalid path or base URL:", error);
+    return null;
+  }
+}
+
+// Remark plugins
 const remarkRemoveImports: Plugin<[], MdastRoot> = () => {
   return (tree) => {
     tree.children = tree.children.filter((node) => node.type !== "mdxjsEsm");
@@ -54,9 +70,8 @@ const remarkRemoveToc: Plugin<[], MdastRoot> = () => {
   };
 };
 
-const rehypeAbsoluteUrls: Plugin<[string | URL], HastRoot> = (
-  baseUrl: string | URL,
-) => {
+// Rehype plugins
+const rehypeAbsoluteUrls: Plugin<[UrlLike], HastRoot> = (baseUrl) => {
   return (tree) => {
     const visit = (node: RootContent | HastRoot) => {
       if (node.type === "element") {
@@ -74,14 +89,4 @@ const rehypeAbsoluteUrls: Plugin<[string | URL], HastRoot> = (
     visit(tree);
     return tree;
   };
-};
-
-export const createUrl = (path: string, baseUrl: URL | string) => {
-  try {
-    const fullUrl = new URL(path, baseUrl);
-    return fullUrl.href;
-  } catch (error) {
-    console.error("Invalid path or base URL:", error);
-    return null;
-  }
 };
