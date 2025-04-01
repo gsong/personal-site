@@ -1,18 +1,20 @@
 ---
 title: "Building Better RSS/Atom Feeds in Astro with the `unified` Ecosystem"
 published: 2025-04-01T05:44:21-07:00
+updated: 2025-04-01T14:50:53-07:00
 description: >-
-  How I solved the challenge of generating RSS and Atom feeds for an Astro site 
-  with complex MDX content by leveraging the `unified` ecosystem and custom plugins.
+  How I solved the challenge of generating RSS and Atom feeds for an Astro site
+  with complex MDX content by leveraging the `unified` ecosystem and custom
+  plugins.
 summary: >-
-  When migrating from Gatsby to Astro, generating RSS/Atom feeds for MDX content 
-  presented unexpected challenges. This article explains how the `unified` 
-  toolchain (`remark`, `rehype`) and custom plugins provided the necessary control 
-  over HTML transformation, ensuring valid, clean, and feature-rich feeds where 
-  standard solutions fell short.
+  When migrating from Gatsby to Astro, generating RSS/Atom feeds for MDX
+  content presented unexpected challenges. This article explains how the
+  `unified` toolchain (`remark`, `rehype`) and custom plugins provided the
+  necessary control over HTML transformation, ensuring valid, clean, and
+  feature-rich feeds where standard solutions fell short.
 ---
 
-Migrating this site from Gatsby v2 to Astro v5 was a big success, but one area required significant custom work: generating RSS and Atom feeds. While feeds are crucial for content syndication, handling MDX content within them presented unexpected challenges that required a custom solution.
+Migrating this site from Gatsby v2 to Astro v5 was a big success! 🙌 But one area required significant custom work: generating RSS and Atom feeds. While feeds are crucial for content syndication, handling MDX content within them presented unexpected challenges that required a custom solution.
 
 ## Requirements for Feed Generation
 
@@ -67,7 +69,7 @@ For structuring and generating the final XML output, I chose the [`feed`][feed] 
 
 ## Building a Custom MDX-to-HTML Pipeline
 
-The core task was creating a function, `mdxToHtml`, to convert raw MDX article content and the description into clean, valid, feed-friendly HTML. This involved constructing a carefully ordered `unified` pipeline:
+The core task was creating a function, `mdxToHtml`, to convert raw MDX article content and the description into clean, valid, feed-friendly HTML. Let's look at how this pipeline works:
 
 ```ts title="feeds/utils.ts" collapse={1-16, 37-99}
 import type { Root as HastRoot, RootContent } from "hast";
@@ -182,7 +184,7 @@ export function createUrl(path: string, baseUrl: UrlLike): string | null {
 
 ## Overcoming Processing Challenges
 
-Even with the powerful `unified` ecosystem, I encountered several challenges:
+Even with the powerful `unified` ecosystem, I encountered several challenges that we need to solve:
 
 1.  **Typography and Encoding Issues:** An attempt to use `remark-smartypants` for typographic enhancements (curly quotes, em-dashes) resulted in mangled characters in the final feed output. Unable to properly debug the encoding conflicts, I omitted `remark-smartypants` from the feed generation pipeline to ensure feed validity.
 2.  **Minification Complications:** Initial attempts used `rehype-preset-minify` to reduce HTML size. However, its default settings proved too aggressive, sometimes removing optional closing tags (like `</p>`) which, while valid in browsers, could break stricter XML parsers used by some feed readers. Switching to [`@minify-html/node`][minify-html] with the `keep_closing_tags: true` option provided safe and effective minification.
@@ -300,6 +302,8 @@ While Astro's standard RSS package works well for simpler sites using standard M
 - Remove extraneous content like Tables of Contents
 - Generate absolute URLs consistently
 - Apply safe HTML minification that preserves XML compatibility
+
+The primary job of our feed generation pipeline is to transform complex MDX content into clean, valid HTML that works reliably in feed readers while preserving the essence of our articles.
 
 Pairing this custom pipeline with the robust `feed` library resulted in valid, clean, and content-rich Atom and RSS feeds that work reliably across feed readers. This solution successfully addressed one of the key challenges in my migration from Gatsby to Astro, ensuring content syndication remained a first-class feature of the site.
 
