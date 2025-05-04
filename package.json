@@ -60,6 +60,7 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "remark-toc": "^9.0.0",
+    "rollup-plugin-visualizer": "^5.14.0",
     "sharp": "^0.34.1",
     "tailwindcss": "^4.1.5",
     "typescript": "^5.8.3",

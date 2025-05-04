@@ -2,7 +2,6 @@ import type { MermaidConfig } from "mermaid";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import elkLayouts from "@mermaid-js/layout-elk";
 import { useStore } from "@nanostores/react";
 import mermaid from "mermaid";
 
@@ -56,16 +55,20 @@ function useMermaid(diagramId: string, diagram: string, config: Config) {
   const [svg, setSvg] = useState<string>("");
 
   useEffect(() => {
-    initializeMermaid(config);
-    renderMermaidDiagram(diagramId, diagram, setSvg);
+    const initAndRender = async () => {
+      await initializeMermaid(config);
+      renderMermaidDiagram(diagramId, diagram, setSvg);
+    };
+    initAndRender();
   }, [config, diagram, diagramId]);
 
   return svg;
 }
 
-function initializeMermaid({ colorScheme, ...config }: Config) {
+async function initializeMermaid({ colorScheme, ...config }: Config) {
   if (config.layout === "elk") {
-    mermaid.registerLayoutLoaders(elkLayouts);
+    const elkLayouts = await import("@mermaid-js/layout-elk");
+    mermaid.registerLayoutLoaders(elkLayouts.default);
   }
 
   mermaid.initialize({

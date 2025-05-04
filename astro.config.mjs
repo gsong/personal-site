@@ -9,6 +9,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import remarkMarkers from "remark-flexible-markers";
 import remarkToc from "remark-toc";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
   site: process.env.SITE_URL || "https://gsong.dev",
@@ -33,7 +34,13 @@ export default defineConfig({
   server: { host: true, allowedHosts: true },
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      visualizer({
+        emitFile: true,
+        filename: "stats.html",
+      }),
+    ],
   },
 });
 

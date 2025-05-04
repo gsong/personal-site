@@ -1,11 +1,8 @@
 import type { JSX } from "react";
+import type React from "react";
 
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 
-import {
-  ArrowTopRightOnSquareIcon,
-  ExclamationTriangleIcon,
-} from "@heroicons/react/24/outline";
 import { KeyboardIcon } from "@radix-ui/react-icons";
 import { clsx } from "clsx";
 
@@ -86,17 +83,28 @@ const useCodeSandbox = (id: string, file?: string) => {
   };
 };
 
+const LazyArrowTopRightOnSquareIcon = lazy(() =>
+  import("@heroicons/react/24/outline").then((module) => ({
+    default: module.ArrowTopRightOnSquareIcon,
+  })),
+);
+const LazyExclamationTriangleIcon = lazy(() =>
+  import("@heroicons/react/24/outline").then((module) => ({
+    default: module.ExclamationTriangleIcon,
+  })),
+);
+
 const IphoneFallback = ({ url }: { url: string }) => (
-  <>
+  <Suspense fallback={<div>Loading icons...</div>}>
     <a href={url} target="_blank" rel="noreferrer" className="flex-center">
-      <ArrowTopRightOnSquareIcon className="size-[1.15em]" />
+      <LazyArrowTopRightOnSquareIcon className="size-[1.15em]" />
       Open Sandbox
     </a>
     <p className="flex-center mt-1 text-sm text-yellow-600">
-      <ExclamationTriangleIcon className="size-[1.15em]" />
+      <LazyExclamationTriangleIcon className="size-[1.15em]" />
       CodeSandbox may not work on iPhones.
     </p>
-  </>
+  </Suspense>
 );
 
 const IFRAME_ALLOW = [
