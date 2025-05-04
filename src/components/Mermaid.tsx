@@ -1,5 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import type { MermaidConfig } from "mermaid";
 
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import elkLayouts from "@mermaid-js/layout-elk";
 import { useStore } from "@nanostores/react";
 import mermaid from "mermaid";
 
@@ -8,12 +11,23 @@ import { colorScheme } from "@/store";
 interface Props {
   diagram: string;
   caption?: string;
+  layout?: "dagre" | "elk";
 }
 
-export const Mermaid = ({ diagram, caption }: Props) => {
+export const Mermaid = ({ diagram, caption, layout = "dagre" }: Props) => {
   const $colorScheme = useStore(colorScheme);
   const diagramId = useRef(`diagram-${getPreciseTime()}`).current;
-  const svg = useMermaid(diagram, $colorScheme, diagramId);
+  const svg = useMermaid(
+    diagramId,
+    diagram,
+    useMemo(
+      () => ({
+        colorScheme: $colorScheme,
+        layout,
+      }),
+      [$colorScheme, layout],
+    ),
+  );
 
   return (
     <figure
@@ -34,23 +48,28 @@ export const Mermaid = ({ diagram, caption }: Props) => {
   );
 };
 
-function useMermaid(
-  diagram: string,
-  colorScheme: ColorScheme,
-  diagramId: string,
-) {
+interface Config extends MermaidConfig {
+  colorScheme: ColorScheme;
+}
+
+function useMermaid(diagramId: string, diagram: string, config: Config) {
   const [svg, setSvg] = useState<string>("");
 
   useEffect(() => {
-    initializeMermaid(colorScheme);
+    initializeMermaid(config);
     renderMermaidDiagram(diagramId, diagram, setSvg);
-  }, [colorScheme, diagram, diagramId]);
+  }, [config, diagram, diagramId]);
 
   return svg;
 }
 
-function initializeMermaid(colorScheme: ColorScheme) {
+function initializeMermaid({ colorScheme, ...config }: Config) {
+  if (config.layout === "elk") {
+    mermaid.registerLayoutLoaders(elkLayouts);
+  }
+
   mermaid.initialize({
+    ...config,
     startOnLoad: true,
     theme:
       colorScheme === "dark" ||
