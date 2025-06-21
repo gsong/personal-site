@@ -1,10 +1,8 @@
-import type { JSX } from "react";
-import type React from "react";
-
-import { Suspense, lazy, useState } from "react";
-
 import { KeyboardIcon } from "@radix-ui/react-icons";
 import { clsx } from "clsx";
+import type React from "react";
+import type { JSX } from "react";
+import { lazy, Suspense, useState } from "react";
 
 interface CodeSandboxProps extends React.ComponentPropsWithoutRef<"iframe"> {
   id: string;

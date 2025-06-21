@@ -1,9 +1,7 @@
-import type { MermaidConfig } from "mermaid";
-
-import { useEffect, useMemo, useRef, useState } from "react";
-
 import { useStore } from "@nanostores/react";
+import type { MermaidConfig } from "mermaid";
 import mermaid from "mermaid";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { colorScheme } from "@/store";
 

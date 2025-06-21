@@ -1,15 +1,13 @@
+import { Buffer } from "node:buffer";
+import minifyHtml from "@minify-html/node";
 import type { Root as HastRoot, RootContent } from "hast";
 import type { Root as MdastRoot } from "mdast";
-import type { Plugin } from "unified";
-
-import { Buffer } from "node:buffer";
-
-import minifyHtml from "@minify-html/node";
 import rehypeStringify from "rehype-stringify";
 import remarkMarkers from "remark-flexible-markers";
 import remarkMdx from "remark-mdx";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
+import type { Plugin } from "unified";
 import { unified } from "unified";
 
 type UrlLike = URL | string;

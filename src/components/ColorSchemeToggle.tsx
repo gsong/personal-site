@@ -1,9 +1,8 @@
-import { useLayoutEffect } from "react";
-
-import { colorScheme as _colorScheme } from "@/store";
 import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import { useStore } from "@nanostores/react";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { useLayoutEffect } from "react";
+import { colorScheme as _colorScheme } from "@/store";
 
 const COLOR_SCHEME_ICONS = {
   system: ComputerDesktopIcon,

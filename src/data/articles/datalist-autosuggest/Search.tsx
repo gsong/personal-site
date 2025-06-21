@@ -1,6 +1,5 @@
-import React from "react";
-
 import { generate } from "random-words";
+import React from "react";
 
 import { ActionNames, initState, reducer } from "./reducer";
 
