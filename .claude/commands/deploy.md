@@ -20,7 +20,6 @@
    ```
 
 4. Create a tag with the format `yyyy/mm/dd-{letter}` where:
-
    - The date is today's date
    - The letter starts with `a` for the first deploy of the day
    - Subsequent deploys increment the letter (b, c, d, etc.)
