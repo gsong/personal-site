@@ -1,0 +1,235 @@
+---
+title: "My AI-Assisted Development Workflow (With Claude Code)"
+published: 2025-10-24T09:00:00-07:00
+description: >-
+  How I've structured my development workflow around Claude Code, including the
+  directories, modes, and tooling that make AI collaboration effective for me.
+summary: >-
+  After months of working with Claude Code, I've developed a workflow that
+  treats it as a true development partner. This article walks through my
+  approach to directory structure, development cycles, and tooling—but the real
+  message is simpler: experiment to find what works for you.
+---
+
+If you're reading this, you've probably already tried AI coding tools. Maybe you've had some wins, maybe some frustrations. This isn't a guide to "the right way" to work with AI—it's a snapshot of what I've landed on after lots of experimentation with Claude Code.
+
+The most important thing I can tell you? ==Your workflow should emerge from your needs, not from copying mine==. Take what resonates, ignore the rest, and adapt everything to your context.
+
+## The Foundation: Two Key Directories
+
+Before diving into workflows and tooling, let's talk about the directories that anchor my AI collaboration.
+
+### ai-swap/: The Collaboration Space
+
+This is a gitignored directory where Claude Code and I brainstorm, plan, and explore ideas without cluttering the repository. Think of it as a scratch space—it lives alongside my codebase but stays local.
+
+I might start drafting an implementation plan here, iterate on architecture decisions, or just work through complex problems without worrying about commit history. It's messy, it's temporary, and that's exactly the point.
+
+### docs-ai/: Project Memory
+
+While `ai-swap/` is ephemeral, `docs-ai/` is permanent. This directory contains documentation specifically written for Claude Code to consume:
+
+- Architecture decisions and rationale (`architecture.md`)
+- Project-specific coding conventions (`development-patterns.md`)
+- Brand style guides (`style-guide.md`)
+- Data flow and state management (`data-flow.md`, `state-management.md`)
+- Common patterns and anti-patterns
+
+The key insight: ==`docs-ai/` gets updated as part of the development cycle, not as an afterthought==. When I merge a PR that introduces a new pattern or makes an architectural decision worth documenting, updating `docs-ai/` is part of the process.
+
+This version-controlled documentation evolves with the project, giving Claude Code the context it needs to make better suggestions and maintain consistency.
+
+## A Complete Development Cycle
+
+Let me walk you through how I typically approach a feature from start to finish.
+
+**1. Think**
+
+Before touching Claude Code, I spend time thinking through what I actually want. Mostly the desired outcome, though sometimes I'll have implementation ideas worth suggesting.
+
+**2. Explore**
+
+I start Claude Code in **chat mode** and talk through the feature. What are we trying to achieve? What constraints exist? What are the possible approaches?
+
+This is conversation, not instruction. I'm exploring the solution space, not prescribing solutions.
+
+**3. Design**
+
+Once we've explored options, I switch to **plan mode** and ask for an implementation plan. If there's a UI component, I'll request ASCII diagrams to visualize the layout.
+
+For non-trivial plans, we break everything down into steps so we can implement them one at a time and change direction if needed. This incremental approach keeps options open.
+
+The plan might stay in `ai-swap/` for my reference, or it might become GitHub or Linear issues if I'm working with a team.
+
+**4. Review and edit**
+
+I read the plan carefully and edit as needed. This often involves a few rounds of iteration with Claude Code alongside manual edits—I'm the one who knows the project's hidden constraints and long-term direction.
+
+**5. Branch or worktree**
+
+Usually a branch is enough. But when I'm exploring multiple options simultaneously or juggling multiple features, I'll create git worktrees. This gives me clean, isolated environments and makes it easy to switch contexts without stashing changes.
+
+**6. Iterate**
+
+Now we implement in **auto mode**. When the requirements are clear and I know the inputs and outputs, I'll use red-green-refactor (TDD). But often I'm exploring, and that's okay—we'll implement, adjust, refactor, and commit frequently.
+
+**7. Commit frequently**
+
+Lots of small commits create rewind points. If we take a wrong turn, we can easily back up without losing much work. (Claude Code has a `/rewind` command for this too, but I prefer using git.)
+
+**8. Create PR**
+
+Once the implementation feels right, I create a pull request.
+
+**9. Critical review**
+
+This is an area where I'm constantly experimenting. Right now I'm testing a team of specialized agents—each focused on different facets of the review (security, accessibility, performance, test coverage)—rather than a single agent reviewing everything. But here's what doesn't change: ==I review the code myself==. The AI-assisted review surfaces issues and perspectives I might miss, but ultimately I'm responsible for what gets merged, regardless of how the code was generated.
+
+**10. Address feedback**
+
+I work through the review feedback, making changes where they make sense and pushing back where they don't.
+
+**11. Update docs-ai/**
+
+If this PR introduced new patterns or made architectural decisions worth documenting, I update `docs-ai/` before merging.
+
+**12. Merge to main**
+
+Ship it!
+
+## The Philosophy: Delegation vs Collaboration
+
+Did you notice something about that development cycle? I'm intentionally vague about _how_ to implement things.
+
+There are two modes of working with Claude Code: delegation and collaboration. I prefer collaboration, but delegation has its place.
+
+**Delegation mode:**
+
+> Create a pie chart that breaks down the line items of capex and opex, and add radio buttons to toggle between the two charts. When I hover over each pie piece, I want to see the actual dollar amount as a tooltip. Also, there should be callouts showing the percentage of each pie piece.
+
+**Collaboration mode:**
+
+> I want to create visualizations for capex and opex that I can toggle between
+
+The first approach is delegation—I've already decided on the solution and I'm asking Claude Code to implement my specific design. This is perfectly valid when I know exactly what I want and how it should work.
+
+But I usually prefer collaboration. The second approach states the goal and invites Claude Code to explore the solution space with me. Maybe a pie chart isn't the best visualization. Maybe radio buttons aren't the most intuitive toggle. By focusing on the outcome rather than the implementation, we can discover options I might not have considered.
+
+==Choose delegation when you know the solution. Choose collaboration when you want to explore possibilities.==
+
+## Development Approaches: When to Use What
+
+I mentioned red-green-refactor earlier, but that's not always the right approach. Let me explain when I use which strategy.
+
+### Red-Green-Refactor (TDD)
+
+This works well when:
+
+- I know the inputs and outputs upfront (like a conversion calculator)
+- Requirements are clear and specific
+- The problem aligns well with traditional TDD practices
+
+With Claude Code, TDD becomes incredibly efficient. Write a failing test, let Claude Code implement it, verify it passes, refactor if needed. Repeat.
+
+### Exploratory Implementation
+
+But sometimes I don't want TDD. I use exploratory implementation when:
+
+- I know the goal but not the exact solution
+- I need to see options before committing to an architecture
+- Discovery is part of the value (not just the end result)
+- I'm okay with dead ends and refactoring along the way
+
+This isn't sloppiness—it's intentionality about the development approach. Sometimes the best way forward is to try something, see how it feels, and adjust.
+
+## The Tooling Philosophy
+
+Now let's talk about the tools I've built around Claude Code. These fall into three categories, each serving a distinct purpose.
+
+### Slash Commands: Complex Workflows
+
+I use slash commands for workflows that need LLM decision-making—tasks that would be hard to script because they require judgment calls at each step.
+
+**My most-used commands:**
+
+- **Git commit management**: Intelligent staging and commit message generation following conventional commit formats
+- **PR review**: Critical analysis focused on actionable items
+- **Dependency upgrades**: Research changelogs, update packages, run tests, and create structured PRs
+- **Worktree management**: Smart branch naming and directory setup
+
+Notice what these have in common: they're all workflows that require making decisions based on context. A bash script could approximate these, but it would need complex branching logic to handle all the cases. With a slash command, Claude Code makes those judgment calls.
+
+You _could_ also use slash commands as a prompt library (shortcuts to frequently-used prompts), though I don't primarily use them that way.
+
+### MCP Servers: Extended Capabilities
+
+MCP servers give Claude Code access to tools it can't reach via bash commands alone.
+
+**Examples of what I use:**
+
+- Linear (project management integration)
+- Context7 (library documentation lookup)
+- Chrome DevTools (browser automation for testing)
+- Netlify (deployment management)
+
+My strategy: ==only enable MCP servers when I need them==. I might keep them configured in my session but disabled. This prevents context bloat (wasting Claude Code's token budget on unused tool descriptions) while maintaining quick access when I do need them.
+
+(Shameless plug: I built [`ccmcp`](https://github.com/gsong/ccmcp) to make managing MCP server configurations easier. Check it out if you find yourself juggling multiple MCP setups.)
+
+### Agents: Context Management
+
+Here's where my thinking shifted: I initially thought of agents as task delegation tools. But the real value represents ==a fundamental shift in how I think about AI collaboration—agents aren't just about saving time, they're about saving context==.
+
+**Example: docs-lookup agent**
+
+Instead of the main Claude Code instance reading through all my `docs-ai/` files (consuming valuable context tokens), I have an agent that specializes in that task. The orchestrator asks the agent a question, the agent searches the docs and returns an answer, and the orchestrator continues with its work.
+
+The agent has its own context window, which means the orchestrator's context stays focused on the implementation task at hand.
+
+### Skills: Still Exploring
+
+Skills are a brand new primitive in Claude Code, and I'm still figuring out how they fit into my workflow. I'm experimenting with them, but haven't yet found their natural place in my development process the way I have with slash commands, MCP servers, and agents.
+
+## Context Management: Being Intentional
+
+Claude Code's token budget is generous, but it's not infinite. My strategy is ==minimal but ready==:
+
+- I don't enable all my MCP servers at once—only when I know I'll need them
+- I keep my `docs-ai/` focused and concise
+- I use agents to keep the orchestrator's context clean
+- Each time I enable a tool, I'm making a conscious decision about what capabilities I need
+
+Why does this matter? Because a cleaner context means better responses. When Claude Code isn't wading through dozens of tool descriptions it won't use, it can focus on the task at hand.
+
+## Git Workflow Integration
+
+Since we're talking about practical workflows, let me touch on how this all integrates with git:
+
+- **Worktrees** give me isolated environments for each feature
+- **Frequent commits** create safety nets
+- **Slash commands** help with commit hygiene (fixup/autosquash workflows)
+- **PR review** ensures quality control before merging
+- **docs-ai updates** happen as part of the merge process, not after
+
+This isn't revolutionary—it's just being intentional about how AI assistance fits into a solid development workflow.
+
+## Make It Your Own
+
+Here's the thing: ==this workflow evolved through lots of trial and error==. I tried things, kept what worked, and discarded what didn't. Your context is different than mine. Your projects have different constraints. Your thinking style might prefer different approaches.
+
+Start with one or two ideas from this article that resonate with you. Try them out. Adapt them. Break them if they don't work. Add your own innovations.
+
+The tools are flexible. Claude Code supports slash commands, MCP servers, agents, different modes—but there's no single "right" way to use them. The best workflow is the one you'll actually use consistently.
+
+**Some questions to guide your experimentation:**
+
+- What parts of your development process feel repetitive?
+- Where do you lose context when switching between tasks?
+- What decisions require judgment but follow patterns?
+- How do you currently document architectural decisions?
+
+Your answers will lead you to different solutions than mine. And that's exactly how it should be.
+
+The goal isn't to copy my workflow. The goal is to find the workflow that makes you more effective, more creative, and maybe even more excited about the work you're doing.
+
+Now go experiment.
