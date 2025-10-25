@@ -1,9 +1,8 @@
-import { defineConfig } from "astro/config";
-
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
 import expressiveCode from "astro-expressive-code";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
