@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from "astro:transitions";
+
 import Footer from "./Footer.astro";
 import Head from "./Head.astro";
 
@@ -15,6 +17,7 @@ const { title, description } = Astro.props;
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <Head title={title} description={description} />
+  <ClientRouter />
 
   <body>
     <slot />

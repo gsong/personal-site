@@ -18,7 +18,14 @@ const articles = (await getCollection("articles")).sort(
   >
     <div class="avatar">
       <div class="mask mask-squircle xs:w-20 w-15 lg:w-26">
-        <Image src={headshot} alt="" width="250" class="!m-0" />
+        <Image
+          src={headshot}
+          alt=""
+          width={250}
+          height={250}
+          layout="constrained"
+          class="!m-0"
+        />
       </div>
     </div>
 

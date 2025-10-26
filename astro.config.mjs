@@ -15,10 +15,21 @@ export default defineConfig({
   base: process.env.SITE_BASE || "/",
   output: "static",
 
+  experimental: {
+    contentIntellisense: true,
+  },
+
+  image: {
+    layout: "constrained",
+    responsiveStyles: true,
+  },
+
   integrations: [
     react(),
     expressiveCode(),
-    mdx(),
+    mdx({
+      optimize: true,
+    }),
     sitemap({ lastmod: new Date() }),
   ],
 
